@@ -11,6 +11,8 @@ Versionsnummern folgen [Semantic Versioning](https://semver.org/lang/de/).
 - JUnit-5-Tests für die vier ADT-Klassen.
 - GitHub-Actions-Workflows für Prüfung und Releases.
 - Deutsche Anleitungen für Java- und Processing-Nutzende.
+- MIT-Lizenz (`LICENSE`); das PDF des Niedersächsischen Kultusministeriums ist
+  ausdrücklich von der Lizenz ausgenommen.
 
 ### Geändert
 

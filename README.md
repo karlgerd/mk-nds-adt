@@ -7,6 +7,9 @@ Niedersächsischen Kultusministeriums (Neufassung, Stand Juni 2025). Maßgeblich
 sind die offiziellen Vorgaben; diese Bibliothek ist eine Implementierung
 dieser Vorgaben und kein Ersatz für das Dokument.
 
+**Voraussetzung:** Java 11 oder neuer. In Processing bedeutet das: Processing 4
+(Processing 3 läuft mit Java 8 und kann die Bibliothek nicht laden).
+
 ## Was brauche ich?
 
 | Ich möchte … | Das passende Paket | Verwendung |
@@ -120,11 +123,22 @@ unter `examples/` abgelegt; eigenständige Java-Beispiele liegen unter
 
 ## Lizenz und Rechte
 
-**TODO für den Maintainer:** Die Lizenz der Klassen muss mit Carsten Rohe und
-dem Landesnetzwerk Informatik Niedersachsen geklärt werden. Es wurde bewusst
-keine Lizenz ausgewählt und keine `LICENSE`-Datei angelegt.
+### Software (MIT-Lizenz)
 
-Das PDF der ergänzenden Hinweise befindet sich unter
-[`docs/INF_Ergaenzende-Hinweise_GO_Neufassung_2025.pdf`](docs/INF_Ergaenzende-Hinweise_GO_Neufassung_2025.pdf).
-**TODO für den Maintainer:** Vor einer Weiterverbreitung die Rechte zur
-Bereitstellung dieses Dokuments klären.
+Copyright (c) 2025-2026 Carsten Rohe
+
+Die Bibliothek (Quellcode, JAR, Processing-Bibliothek, Beispiele) steht unter
+der [MIT-Lizenz](LICENSE). Du darfst sie frei nutzen, ändern, weitergeben und
+im Unterricht verwenden. Bedingung ist nur, dass der Lizenztext und der
+Copyright-Hinweis erhalten bleiben.
+
+### Externes Dokument des Niedersächsischen Kultusministeriums
+
+Im Ordner `docs/` liegt zur Information das Dokument
+[`INF_Ergaenzende-Hinweise_GO_Neufassung_2025.pdf`](docs/INF_Ergaenzende-Hinweise_GO_Neufassung_2025.pdf).
+
+> **Dieses Dokument stammt vom Niedersächsischen Kultusministerium (MK) und ist
+> kein Bestandteil dieser Software.** Es ist nicht von den Autoren dieses
+> Repositories erstellt und steht **nicht** unter der MIT-Lizenz. Alle Rechte
+> daran liegen beim Niedersächsischen Kultusministerium. Maßgeblich ist immer
+> die jeweils aktuelle Fassung auf den offiziellen Seiten des Ministeriums.

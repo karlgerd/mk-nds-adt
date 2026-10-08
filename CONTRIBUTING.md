@@ -14,6 +14,5 @@ Vor einem Pull Request:
 4. In der Beschreibung Änderungen und noch offene Entscheidungen klar
    benennen.
 
-Es gibt derzeit keine veröffentlichte Lizenz. Bitte keine Lizenz ergänzen oder
-aus den vorhandenen Dateien ableiten; die Rechte müssen zuerst mit den
-Rechteinhabern geklärt werden.
+Mit einem Beitrag erklärst du dich einverstanden, dass er unter der
+[MIT-Lizenz](LICENSE) dieses Repositories veröffentlicht wird.
