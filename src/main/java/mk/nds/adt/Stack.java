@@ -5,7 +5,7 @@ package mk.nds.adt;
  * Informatik für die gymnasiale Oberstufe in Niedersachsen und den ergänzenden
  * Hinweisen (Stand: Juni 2025)
  *
- * @author Landesnetzwerk Informatik Niedersachsen, Carsten Rohe
+ * @author Carsten Rohe (erstellt für das Landesnetzwerk Informatik Niedersachsen)
  * @version 2025.09.22
  */
 public class Stack {
