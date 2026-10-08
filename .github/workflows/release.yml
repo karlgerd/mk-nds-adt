@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+      - name: JDK 11 einrichten
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '11'
+          cache: maven
+      - name: Bauen und Tests ausführen
+        run: mvn -B verify
+      - name: GitHub-Release mit Bibliotheken veröffentlichen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          gh release create "${GITHUB_REF_NAME}" \
+            "target/mk-nds-adt-${VERSION}-sources.jar" \
+            "target/mk-nds-adt-${VERSION}.jar" \
+            "target/mk-nds-adt-${VERSION}-javadoc.jar" \
+            "target/mk-nds-adt.zip" \
+            --generate-notes

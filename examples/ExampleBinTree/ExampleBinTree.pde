@@ -27,6 +27,6 @@ void draw() {
 void inorderPrint(BinTree node) {
   if (node.isEmpty()) return;
   inorderPrint(node.getLeft());
-  println((int)node.getItem());
+  println((Integer) node.getItem());
   inorderPrint(node.getRight());
 }
