@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.2.0 https://maven.apache.org/xsd/assembly-2.2.0.xsd">
+    <id>processing</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}/examples</directory>
+            <outputDirectory>mk-nds-adt/examples</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/src/main/java</directory>
+            <outputDirectory>mk-nds-adt/src</outputDirectory>
+            <includes>
+                <include>**/*.java</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/reports/apidocs</directory>
+            <outputDirectory>mk-nds-adt/reference</outputDirectory>
+        </fileSet>
+    </fileSets>
+    <files>
+        <file>
+            <source>${project.build.directory}/${project.build.finalName}.jar</source>
+            <outputDirectory>mk-nds-adt/library</outputDirectory>
+            <destName>mk-nds-adt.jar</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/library.properties</source>
+            <outputDirectory>mk-nds-adt</outputDirectory>
+        </file>
+    </files>
+</assembly>
