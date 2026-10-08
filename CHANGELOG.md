@@ -3,6 +3,15 @@
 Dieses Protokoll folgt dem Format [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 Versionsnummern folgen [Semantic Versioning](https://semver.org/lang/de/).
 
+## [Unveröffentlicht]
+
+### Geändert
+
+- Repository von `processing-mk-nds-adt` in `mk-nds-adt` umbenannt; alle
+  Verweise auf die alte URL wurden angepasst.
+- Dokumentation (README, Metadaten) beschreibt die Bibliothek nun als
+  allgemeine Java-Bibliothek, die zusätzlich auch in Processing nutzbar ist.
+
 ## [2.1.0] - 2026-10-08
 
 ### Hinzugefügt

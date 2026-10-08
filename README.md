@@ -7,19 +7,23 @@ Niedersächsischen Kultusministeriums (Neufassung, Stand Juni 2025). Maßgeblich
 sind die offiziellen Vorgaben; diese Bibliothek ist eine Implementierung
 dieser Vorgaben und kein Ersatz für das Dokument.
 
-**Voraussetzung:** Java 11 oder neuer. In Processing bedeutet das: Processing 4
-(Processing 3 läuft mit Java 8 und kann die Bibliothek nicht laden).
+Die Bibliothek ist eine reine Java-Bibliothek ohne Laufzeitabhängigkeiten und
+lässt sich in jeder Java-Entwicklungsumgebung verwenden. Zusätzlich wird sie
+als fertige Bibliothek für Processing bereitgestellt.
+
+**Voraussetzung:** Java 11 oder neuer. Für Processing bedeutet das:
+Processing 4 (Processing 3 läuft mit Java 8 und kann die Bibliothek nicht
+laden).
 
 ## Was brauche ich?
 
 | Ich möchte … | Das passende Paket | Verwendung |
 | --- | --- | --- |
-| nur die Java-Dateien übernehmen | `mk-nds-adt-2.1.0-sources.jar` auf der [Release-Seite](https://github.com/karlgerd/processing-mk-nds-adt/releases) | JAR wie ein ZIP-Archiv öffnen und die vier Dateien aus `mk/nds/adt/` in den Java-Quellordner kopieren. Tests und Beispiele sind nicht enthalten. |
-| die Klassen in einem Java-Projekt verwenden | `mk-nds-adt-2.1.0.jar` auf der [Release-Seite](https://github.com/karlgerd/processing-mk-nds-adt/releases) | JAR als Bibliothek zum Projekt hinzufügen. Die optionale `mk-nds-adt-2.1.0-javadoc.jar` enthält die API-Dokumentation. |
-| Processing verwenden | `mk-nds-adt.zip` auf der [Release-Seite](https://github.com/karlgerd/processing-mk-nds-adt/releases) | ZIP entpacken und den enthaltenen Ordner `mk-nds-adt` in den Processing-Bibliotheksordner kopieren. Processing anschließend neu starten. |
-| eine andere Java-IDE verwenden | die JAR oder die einzelnen Java-Dateien | Die JAR als Projektbibliothek hinzufügen oder die vier Quelldateien in den Quellordner kopieren; dafür gibt es keine zusätzlichen IDE-spezifischen Artefakte. |
+| die Klassen in einem Java-Projekt verwenden | `mk-nds-adt-2.1.0.jar` auf der [Release-Seite](https://github.com/karlgerd/mk-nds-adt/releases) | JAR als Bibliothek zum Projekt hinzufügen. Die optionale `mk-nds-adt-2.1.0-javadoc.jar` enthält die API-Dokumentation. |
+| nur die Java-Dateien übernehmen | `mk-nds-adt-2.1.0-sources.jar` auf der [Release-Seite](https://github.com/karlgerd/mk-nds-adt/releases) | JAR wie ein ZIP-Archiv öffnen und die vier Dateien aus `mk/nds/adt/` in den Java-Quellordner kopieren. Tests und Beispiele sind nicht enthalten. |
+| Processing verwenden | `mk-nds-adt.zip` auf der [Release-Seite](https://github.com/karlgerd/mk-nds-adt/releases) | ZIP entpacken und den enthaltenen Ordner `mk-nds-adt` in den Processing-Bibliotheksordner kopieren. Processing anschließend neu starten. |
 
-Die Pakete werden bei einem [GitHub-Release](https://github.com/karlgerd/processing-mk-nds-adt/releases)
+Die Pakete werden bei einem [GitHub-Release](https://github.com/karlgerd/mk-nds-adt/releases)
 bereitgestellt. Der Inhalt der Sources-JAR ist auf die vier Bibliotheksdateien
 beschränkt.
 
@@ -33,11 +37,11 @@ beschränkt.
 - **BlueJ:** Die JAR reicht aus. Sie kann in den persönlichen Ordner `userlib`
   kopiert oder in BlueJ über *Einstellungen → Bibliotheken* hinzugefügt werden.
   BlueJ danach gegebenenfalls neu starten.
+- **VS Code:** Mit der Java-Erweiterung die JAR als referenzierte Bibliothek
+  hinzufügen (Java-Projektansicht oder `java.project.referencedLibraries`).
 - **Processing:** Die Processing-ZIP enthält die von Processing erwartete
   Struktur. Den Ordner `mk-nds-adt` aus dem Archiv in den Ordner `libraries`
   im Processing-Sketchbook kopieren und Processing neu starten.
-- **VS Code:** Mit der Java-Erweiterung die JAR als referenzierte Bibliothek
-  hinzufügen (Java-Projektansicht oder `java.project.referencedLibraries`).
 
 ## Kurze Beispiele
 
@@ -100,11 +104,12 @@ Die Ergebnisse liegen im Ordner `target/`:
 - `mk-nds-adt-2.1.0.jar` – Bibliothek mit Java-11-Bytecode
 - `mk-nds-adt-2.1.0-sources.jar` – nur die vier Java-Quelldateien
 - `mk-nds-adt-2.1.0-javadoc.jar` – API-Dokumentation
-- `mk-nds-adt.zip` – Processing-Bibliothek
+- `mk-nds-adt.zip` – Bibliothek im Format für Processing
 
-Die automatischen Tests liegen unter `src/test/java/`. Processing-Sketches sind
-unter `examples/` abgelegt; eigenständige Java-Beispiele liegen unter
-`src/examples/java/` und werden nicht in die Bibliotheks-JAR aufgenommen.
+Die automatischen Tests liegen unter `src/test/java/`. Eigenständige
+Java-Beispiele liegen unter `src/examples/java/` und werden nicht in die
+Bibliotheks-JAR aufgenommen. Beispiel-Sketches für Processing sind unter
+`examples/` abgelegt.
 
 ### Ein Release erstellen
 

@@ -8,8 +8,8 @@
     <artifactId>mk-nds-adt</artifactId>
     <version>2.1.0</version>
     <name>mk-nds-adt</name>
-    <description>ADT-Klassen für den Informatikunterricht in Niedersachsen</description>
-    <url>https://github.com/karlgerd/processing-mk-nds-adt</url>
+    <description>Java-Bibliothek mit ADT-Klassen für den Informatikunterricht in Niedersachsen (auch für Processing nutzbar)</description>
+    <url>https://github.com/karlgerd/mk-nds-adt</url>
 
     <properties>
         <!-- Vorschlag: groupId de.karlgerd; Maintainer bitte vor einer Veröffentlichung bestätigen/anpassen. -->
@@ -97,7 +97,7 @@
                 </executions>
             </plugin>
 
-            <!-- Erstellt aus src/assembly/processing.xml die fertige Processing-Bibliothek als ZIP. -->
+            <!-- Erstellt zusätzlich aus src/assembly/processing.xml die Bibliothek im Processing-Format als ZIP. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
