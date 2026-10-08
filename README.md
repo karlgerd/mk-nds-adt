@@ -38,10 +38,6 @@ beschränkt.
   im Processing-Sketchbook kopieren und Processing neu starten.
 - **VS Code:** Mit der Java-Erweiterung die JAR als referenzierte Bibliothek
   hinzufügen (Java-Projektansicht oder `java.project.referencedLibraries`).
-- **Greenfoot:** Die normale Bibliotheks-JAR reicht aus; eine Processing-ZIP
-  ist nicht erforderlich. Lege die JAR im Projektordner `lib` ab und lade das
-  Szenario neu. Greenfoot muss Zugriff auf die JAR haben, bevor Quelltexte
-  importiert werden.
 
 ## Kurze Beispiele
 
