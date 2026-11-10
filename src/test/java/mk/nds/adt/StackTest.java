@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 class StackTest {
     @Test
     void followsLastInFirstOutOrder() {
-        Stack stack = new Stack();
+        Stack<String> stack = new Stack<>();
         assertTrue(stack.isEmpty());
 
         stack.push("A");
@@ -25,7 +25,7 @@ class StackTest {
 
     @Test
     void rejectsNullAndOperationsOnAnEmptyStack() {
-        Stack stack = new Stack();
+        Stack<String> stack = new Stack<>();
         assertThrows(IllegalArgumentException.class, () -> stack.push(null));
         assertThrows(IllegalStateException.class, stack::top);
         assertThrows(IllegalStateException.class, stack::pop);

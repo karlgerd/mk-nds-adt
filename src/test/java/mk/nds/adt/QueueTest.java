@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 class QueueTest {
     @Test
     void followsFirstInFirstOutOrder() {
-        Queue queue = new Queue();
+        Queue<String> queue = new Queue<>();
         assertTrue(queue.isEmpty());
 
         queue.enqueue("A");
@@ -25,7 +25,7 @@ class QueueTest {
 
     @Test
     void rejectsNullAndOperationsOnAnEmptyQueue() {
-        Queue queue = new Queue();
+        Queue<String> queue = new Queue<>();
         assertThrows(IllegalArgumentException.class, () -> queue.enqueue(null));
         assertThrows(IllegalStateException.class, queue::head);
         assertThrows(IllegalStateException.class, queue::dequeue);

@@ -3,15 +3,19 @@ package mk.nds.adt;
 /**
  * Klasse BinTree zur Umsetzung des ADT Binärbaum entsprechend der Vorgaben des
  * KC Informatik für die gymnasiale Oberstufe in Niedersachsen und den
- * ergänzenden Hinweisen (Stand: Juni 2025)
+ * ergänzenden Hinweisen.
+ * <p>
+ * Die Klasse ist generisch: Der Typparameter {@code T} legt den Typ der
+ * Inhalte fest, z. B. {@code BinTree<String>}. Alle Knoten eines Baums
+ * speichern Inhalte desselben Typs; ein Typ-Cast beim Auslesen ist nicht nötig.
  *
  * @author Carsten Rohe (erstellt für das Landesnetzwerk Informatik Niedersachsen)
- * @version 2025.09.22
+ * @param <T> Typ der im Baum gespeicherten Inhalte
  */
-public class BinTree {
-	private Object item;
-	private BinTree left;
-	private BinTree right;
+public class BinTree<T> {
+	private T item;
+	private BinTree<T> left;
+	private BinTree<T> right;
 
 	/**
 	 * Ein leerer Baum wird erzeugt. Er besitzt keinen Inhalt und keine Teilbäume.
@@ -29,14 +33,14 @@ public class BinTree {
 	 * @param inhalt Der Inhalt für die Wurzel des neuen Baums.
 	 * @throws IllegalArgumentException Wird ausgelöst, wenn der übergebene Inhalt 'null' ist.
 	 */
-	public BinTree(Object inhalt) {
+	public BinTree(T inhalt) {
 		if (inhalt == null) {
 			throw new IllegalArgumentException(
 					"Der Baum kann nicht erzeugt werden. Der übergebene Inhalt darf nicht 'null' sein.");
 		}
 		this.item = inhalt;
-		this.left = new BinTree();
-		this.right = new BinTree();
+		this.left = new BinTree<>();
+		this.right = new BinTree<>();
 	}
 
 	/**
@@ -54,7 +58,7 @@ public class BinTree {
 	 * @return Der Inhaltswert der Wurzel.
 	 * @throws IllegalStateException Wird ausgelöst, wenn der Baum leer ist.
 	 */
-	public Object getItem() {
+	public T getItem() {
 		if (isEmpty()) {
 			throw new IllegalStateException("Der Baum ist leer. Es kann kein Inhalt ausgelesen werden.");
 		}
@@ -69,14 +73,14 @@ public class BinTree {
 	 * @param inhalt Der neue Inhaltswert für die Wurzel.
 	 * @throws IllegalArgumentException Wird ausgelöst, wenn der übergebene Inhalt 'null' ist.
 	 */
-	public void setItem(Object inhalt) {
+	public void setItem(T inhalt) {
 		if (inhalt == null) {
 			throw new IllegalArgumentException(
 					"Der Wert kann nicht gesetzt werden. Der übergebene Inhalt darf nicht 'null' sein.");
 		}
 		if (isEmpty()) {
-			this.left = new BinTree();
-			this.right = new BinTree();
+			this.left = new BinTree<>();
+			this.right = new BinTree<>();
 		}
 		this.item = inhalt;
 	}
@@ -100,7 +104,7 @@ public class BinTree {
 	 * @return Der linke Teilbaum.
 	 * @throws IllegalStateException Wird ausgelöst, wenn der Baum leer ist.
 	 */
-	public BinTree getLeft() {
+	public BinTree<T> getLeft() {
 		if (isEmpty()) {
 			throw new IllegalStateException("Der Baum ist leer. Es ist kein linker Teilbaum vorhanden.");
 		}
@@ -114,7 +118,7 @@ public class BinTree {
 	 * @throws IllegalStateException    Wird ausgelöst, wenn der Baum leer ist.
 	 * @throws IllegalArgumentException Wird ausgelöst, wenn der übergebene Wert 'null' ist.
 	 */
-	public void setLeft(BinTree b) {
+	public void setLeft(BinTree<T> b) {
 		if (isEmpty()) {
 			throw new IllegalStateException("Der Baum ist leer. Es kann kein linker Teilbaum gesetzt werden.");
 		}
@@ -131,7 +135,7 @@ public class BinTree {
 	 * @return Der rechte Teilbaum.
 	 * @throws IllegalStateException Wird ausgelöst, wenn der Baum leer ist.
 	 */
-	public BinTree getRight() {
+	public BinTree<T> getRight() {
 		if (isEmpty()) {
 			throw new IllegalStateException("Der Baum ist leer. Es ist kein rechter Teilbaum vorhanden.");
 		}
@@ -145,7 +149,7 @@ public class BinTree {
 	 * @throws IllegalStateException    Wird ausgelöst, wenn der Baum leer ist.
 	 * @throws IllegalArgumentException Wird ausgelöst, wenn der übergebene Wert 'null' ist.
 	 */
-	public void setRight(BinTree b) {
+	public void setRight(BinTree<T> b) {
 		if (isEmpty()) {
 			throw new IllegalStateException("Der Baum ist leer. Es kann kein rechter Teilbaum gesetzt werden.");
 		}

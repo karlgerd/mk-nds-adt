@@ -1,17 +1,17 @@
 // Beispiel für die Nutzung von Queue in Processing
 import mk.nds.adt.Queue;
 
-Queue schlange;
+Queue<String> schlange;
 
 void setup() {
   size(400, 200);
-  schlange = new Queue();
+  schlange = new Queue<String>();
   schlange.enqueue("Erstes Element");
   schlange.enqueue("Zweites Element");
   schlange.enqueue("Drittes Element");
   println("Queue Inhalt:");
   while (!schlange.isEmpty()) {
-    String s = (String) schlange.dequeue();
+    String s = schlange.dequeue();
     println(s);
   }
 }

@@ -1,17 +1,17 @@
 // Beispiel für die Nutzung von DynArray in Processing
 import mk.nds.adt.DynArray;
 
-DynArray arr;
+DynArray<String> arr;
 
 void setup() {
   size(400, 200);
-  arr = new DynArray();
+  arr = new DynArray<String>();
   arr.append("A");
   arr.append("B");
   arr.append("C");
   println("DynArray Inhalt:");
   for (int i = 0; i < arr.getLength(); i++) {
-    String s = (String) arr.getItem(i);
+    String s = arr.getItem(i);
     println(s);
   }
 }

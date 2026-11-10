@@ -7,6 +7,10 @@ Versionsnummern folgen [Semantic Versioning](https://semver.org/lang/de/).
 
 ### Geändert
 
+- `BinTree`, `DynArray`, `Queue` und `Stack` sind nun generisch
+  (`BinTree<T>` usw.) statt `Object` zu verwenden. Bestehender Code mit
+  rohen Typen kompiliert weiterhin, ein Typ-Cast beim Auslesen entfällt bei
+  Angabe des Typparameters.
 - Repository von `processing-mk-nds-adt` in `mk-nds-adt` umbenannt; alle
   Verweise auf die alte URL wurden angepasst.
 - Dokumentation (README, Metadaten) beschreibt die Bibliothek nun als

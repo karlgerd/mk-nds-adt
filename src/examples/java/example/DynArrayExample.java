@@ -4,7 +4,7 @@ import mk.nds.adt.DynArray;
 
 public class DynArrayExample {
     public static void main(String[] args) {
-        DynArray reihung = new DynArray();
+        DynArray<String> reihung = new DynArray<>();
         System.out.println("Reihung ist leer: " + reihung.isEmpty());
 
         // Elemente hinzufügen
@@ -15,16 +15,16 @@ public class DynArrayExample {
 
         // Element an Position 1 einfügen
         reihung.insertAt(1, "Delta");
-        System.out.println("Element an Position 1 nach insertAt: " + (String) reihung.getItem(1));
+        System.out.println("Element an Position 1 nach insertAt: " + reihung.getItem(1));
 
         // Element an Position 2 ersetzen
         reihung.setItem(2, "Echo");
-        System.out.println("Element an Position 2 nach setItem: " + (String) reihung.getItem(2));
+        System.out.println("Element an Position 2 nach setItem: " + reihung.getItem(2));
 
         // Alle Elemente ausgeben
         System.out.println("Alle Elemente der Reihung:");
         for (int i = 0; i < reihung.getLength(); i++) {
-            System.out.println("Index " + i + ": " + (String) reihung.getItem(i));
+            System.out.println("Index " + i + ": " + reihung.getItem(i));
         }
 
         // Element an Position 0 löschen
@@ -34,7 +34,7 @@ public class DynArrayExample {
         // Alle Elemente nach dem Löschen ausgeben
         System.out.println("Alle Elemente nach delete:");
         for (int i = 0; i < reihung.getLength(); i++) {
-            System.out.println("Index " + i + ": " + (String) reihung.getItem(i));
+            System.out.println("Index " + i + ": " + reihung.getItem(i));
         }
 
         // Zustand prüfen

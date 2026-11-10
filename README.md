@@ -45,16 +45,17 @@ beschränkt.
 
 ## Kurze Beispiele
 
-Alle Klassen liegen im Paket `mk.nds.adt`. Die Inhalte sind `Object`-Werte; beim
-Auslesen kann daher ein passender Typ-Cast nötig sein.
+Alle Klassen liegen im Paket `mk.nds.adt` und sind generisch: Der Typ der
+Inhalte wird bei der Erzeugung angegeben (z. B. `Stack<String>`), ein Typ-Cast
+beim Auslesen ist nicht nötig.
 
 ### BinTree
 
 ```java
 import mk.nds.adt.BinTree;
 
-BinTree baum = new BinTree("Wurzel");
-baum.setLeft(new BinTree("Links"));
+BinTree<String> baum = new BinTree<>("Wurzel");
+baum.setLeft(new BinTree<>("Links"));
 System.out.println(baum.getLeft().getItem());
 ```
 
@@ -63,7 +64,7 @@ System.out.println(baum.getLeft().getItem());
 ```java
 import mk.nds.adt.DynArray;
 
-DynArray reihung = new DynArray();
+DynArray<String> reihung = new DynArray<>();
 reihung.append("A");
 reihung.insertAt(1, "B");
 System.out.println(reihung.getItem(0));
@@ -74,7 +75,7 @@ System.out.println(reihung.getItem(0));
 ```java
 import mk.nds.adt.Queue;
 
-Queue schlange = new Queue();
+Queue<String> schlange = new Queue<>();
 schlange.enqueue("A");
 System.out.println(schlange.dequeue());
 ```
@@ -84,7 +85,7 @@ System.out.println(schlange.dequeue());
 ```java
 import mk.nds.adt.Stack;
 
-Stack stapel = new Stack();
+Stack<String> stapel = new Stack<>();
 stapel.push("A");
 System.out.println(stapel.pop());
 ```

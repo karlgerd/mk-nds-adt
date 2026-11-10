@@ -1,17 +1,17 @@
 // Beispiel für die Nutzung von BinTree in Processing
 import mk.nds.adt.BinTree;
 
-BinTree baum;
+BinTree<Integer> baum;
 
 void setup() {
   size(400, 200);
-  baum = new BinTree();
+  baum = new BinTree<Integer>();
   // Werte setzen mit setItem, setLeft, setRight
   baum.setItem(5);
-  BinTree left = new BinTree();
+  BinTree<Integer> left = new BinTree<Integer>();
   left.setItem(3);
   baum.setLeft(left);
-  BinTree right = new BinTree();
+  BinTree<Integer> right = new BinTree<Integer>();
   right.setItem(7);
   baum.setRight(right);
   println("Inorder Traversierung:");
@@ -24,9 +24,9 @@ void draw() {
 }
 
 // Hilfsmethode für Inorder-Traversierung
-void inorderPrint(BinTree node) {
+void inorderPrint(BinTree<Integer> node) {
   if (node.isEmpty()) return;
   inorderPrint(node.getLeft());
-  println((Integer) node.getItem());
+  println(node.getItem());
   inorderPrint(node.getRight());
 }

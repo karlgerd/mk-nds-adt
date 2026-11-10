@@ -6,14 +6,18 @@ import java.util.NoSuchElementException;
 /**
  * Klasse DynArray zur Umsetzung des ADT Dynamische Reihung entsprechend der
  * Vorgaben des KC Informatik für die gymnasiale Oberstufe in Niedersachsen und
- * den ergänzenden Hinweisen (Stand: Juni 2025)
+ * den ergänzenden Hinweisen.
+ * <p>
+ * Die Klasse ist generisch: Der Typparameter {@code T} legt den Typ der
+ * Inhalte fest, z. B. {@code DynArray<String>}. Beim Auslesen und beim
+ * Iterieren ist kein Typ-Cast nötig.
  *
  * @author Carsten Rohe (erstellt für das Landesnetzwerk Informatik Niedersachsen)
- * @version 2025.09.22
+ * @param <T> Typ der in der Reihung gespeicherten Inhalte
  */
-public class DynArray implements Iterable<Object> {
+public class DynArray<T> implements Iterable<T> {
 	private int length;
-	private Element head;
+	private Element<T> head;
 
 	/**
 	 * Eine leere dynamische Reihung wird angelegt.
@@ -40,11 +44,11 @@ public class DynArray implements Iterable<Object> {
 	 * @return Der Inhalt des Elements an der Position index.
 	 * @throws IndexOutOfBoundsException Wird ausgelöst, wenn der Index außerhalb des gültigen Bereichs liegt.
 	 */
-	public Object getItem(int index) {
+	public T getItem(int index) {
 		if (index < 0 || index >= length) {
 			throw new IndexOutOfBoundsException("Index " + index + " ist außerhalb des gültigen Bereichs.");
 		}
-		Element current = head;
+		Element<T> current = head;
 		for (int i = 0; i < index; i++) {
 			current = current.next;
 		}
@@ -58,14 +62,14 @@ public class DynArray implements Iterable<Object> {
 	 * @param data Der Inhalt für das neue Element.
 	 * @throws IllegalArgumentException Wird ausgelöst, wenn das übergebene Element 'null' ist.
 	 */
-	public void append(Object data) {
+	public void append(T data) {
 		if (data == null) {
 			throw new IllegalArgumentException("Das Element darf nicht 'null' sein.");
 		}
 		if (!isEmpty()) {
-			getElement(length - 1).next = new Element(data);
+			getElement(length - 1).next = new Element<>(data);
 		} else {
-			head = new Element(data);
+			head = new Element<>(data);
 		}
 		length++;
 	}
@@ -81,7 +85,7 @@ public class DynArray implements Iterable<Object> {
 	 * @param data  Der Inhalt für das neue Element.
 	 * @throws IndexOutOfBoundsException Wird ausgelöst, wenn index außerhalb des gültigen Bereichs liegt.
 	 */
-	public void insertAt(int index, Object data) {
+	public void insertAt(int index, T data) {
 		if (index < 0 || index > length) {
 			throw new IndexOutOfBoundsException("Index " + index + " ist außerhalb des gültigen Bereichs.");
 		}
@@ -89,14 +93,14 @@ public class DynArray implements Iterable<Object> {
 			throw new IllegalArgumentException("Das Element darf nicht 'null' sein.");
 		}
 		if (index < length && index > 0) { // Es wird mittig eingefügt.
-			Element n = new Element(data);
-			Element temp = getElement(index);
+			Element<T> n = new Element<>(data);
+			Element<T> temp = getElement(index);
 			getElement(index - 1).next = n;
 			n.next = temp;
 			length++;
 		} else if (index == 0 && !isEmpty()) { // Es wird vorne eingefügt.
-			Element temp = head;
-			head = new Element(data);
+			Element<T> temp = head;
+			head = new Element<>(data);
 			head.next = temp;
 			length++;
 		} else if (index == length) { // Es wird am Ende hinzugefügt.
@@ -112,7 +116,7 @@ public class DynArray implements Iterable<Object> {
 	 * @param data  Der neue Inhalt.
 	 * @throws IndexOutOfBoundsException Wird ausgelöst, wenn index außerhalb des gültigen Bereichs liegt.
 	 */
-	public void setItem(int index, Object data) {
+	public void setItem(int index, T data) {
 		if (index < 0 || index >= length) {
 			throw new IndexOutOfBoundsException("Index " + index + " ist außerhalb des gültigen Bereichs.");
 		}
@@ -151,13 +155,13 @@ public class DynArray implements Iterable<Object> {
 		return length;
 	}
 
-	private Element getElement(int index) {
+	private Element<T> getElement(int index) {
 		// Interne Hilfsoperation zum vereinfachten Zugriff auf die Elemente der
 		// dynamischen Reihung.
 		if (index < 0 || index >= length) {
 			throw new IndexOutOfBoundsException("Index " + index + " ist außerhalb des gültigen Bereichs.");
 		}
-		Element current = head;
+		Element<T> current = head;
 		for (int i = 0; i < index; i++) {
 			current = current.next;
 		}
@@ -165,12 +169,12 @@ public class DynArray implements Iterable<Object> {
 	}
 
 	@Override
-	public Iterator<Object> iterator() {
+	public Iterator<T> iterator() {
 		return new DynArrayIterator();
 	}
 
-	private class DynArrayIterator implements Iterator<Object> {
-		private Element current = head;
+	private class DynArrayIterator implements Iterator<T> {
+		private Element<T> current = head;
 
 		@Override
 		public boolean hasNext() {
@@ -178,11 +182,11 @@ public class DynArray implements Iterable<Object> {
 		}
 
 		@Override
-		public Object next() {
+		public T next() {
 			if (!hasNext()) {
 				throw new NoSuchElementException();
 			}
-			Object data = current.data;
+			T data = current.data;
 			current = current.next;
 			return data;
 		}
@@ -190,22 +194,22 @@ public class DynArray implements Iterable<Object> {
 
 	// Klasse Element zur internen Verwaltung der einzelnen Elemente der dynamischen
 	// Reihung
-	private static class Element {
+	private static class Element<E> {
 		/**
 		 * Der im Element gespeicherte Inhalt.
 		 */
-		private Object data;
+		private E data;
 		/**
 		 * Das nächste Element der Reihung.
 		 */
-		private Element next;
+		private Element<E> next;
 
 		/**
 		 * Erzeugt ein Element mit dem angegebenen Inhalt.
 		 *
 		 * @param d der Inhalt des Elements
 		 */
-		private Element(Object d) {
+		private Element(E d) {
 			if (d == null) {
 				throw new IllegalArgumentException("Das Element darf nicht 'null' sein.");
 			}

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 class DynArrayTest {
     @Test
     void appendsInsertsReplacesAndDeletesItems() {
-        DynArray array = new DynArray();
+        DynArray<String> array = new DynArray<>();
         array.append("A");
         array.append("C");
         array.insertAt(1, "B");
@@ -35,7 +35,7 @@ class DynArrayTest {
 
     @Test
     void rejectsNullAndOutOfRangeIndexes() {
-        DynArray array = new DynArray();
+        DynArray<String> array = new DynArray<>();
         assertThrows(IllegalArgumentException.class, () -> array.append(null));
         assertThrows(IllegalArgumentException.class, () -> array.insertAt(0, null));
         assertThrows(IndexOutOfBoundsException.class, () -> array.getItem(0));
@@ -53,17 +53,17 @@ class DynArrayTest {
 
     @Test
     void iteratorVisitsEveryItemAndThrowsAfterTheEnd() {
-        DynArray array = new DynArray();
+        DynArray<String> array = new DynArray<>();
         array.append("A");
         array.append("B");
 
-        Iterator<Object> iterator = array.iterator();
+        Iterator<String> iterator = array.iterator();
         assertTrue(iterator.hasNext());
         assertEquals("A", iterator.next());
         assertTrue(iterator.hasNext());
         assertEquals("B", iterator.next());
         assertFalse(iterator.hasNext());
         assertThrows(NoSuchElementException.class, iterator::next);
-        assertFalse(new DynArray().iterator().hasNext());
+        assertFalse(new DynArray<String>().iterator().hasNext());
     }
 }
