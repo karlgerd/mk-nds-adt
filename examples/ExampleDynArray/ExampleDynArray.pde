@@ -34,6 +34,4 @@ void setup() {
 }
 
 void draw() {
-  background(255);
-  text("DynArray Beispiel", 20, 30);
 }
