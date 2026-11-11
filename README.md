@@ -142,10 +142,23 @@ if (reihung.getItem(0).equals(reihung.getItem(1))) { ... }
 
 ### Nutzung ohne Angabe des Inhaltstyps
 
-Die Klassen können auch ohne Inhaltstyp verwendet werden, zum Beispiel
-`Stack stapel = new Stack();`. Die Elemente sind dann vom Typ `Object`, beim
-Auslesen ist ein Typ-Cast nötig, und der Compiler gibt Warnungen aus
-(„unchecked“ bzw. „raw type“). Das Programm läuft trotzdem.
+Die Klassen können auch ohne Angabe eines Inhaltstyps deklariert und erzeugt
+werden:
+
+```java
+Stack stapel = new Stack();
+stapel.push("A");
+String wert = (String) stapel.pop();
+```
+
+Die Inhalte sind dann vom Typ `Object`, beim Auslesen ist daher ein Typ-Cast
+nötig. Das Programm lässt sich trotzdem übersetzen und ausführen.
+
+Je nach Entwicklungsumgebung erscheint dabei ein kurzer Hinweis des Compilers,
+etwa „uses unchecked or unsafe operations“ oder eine Warnung zu einem
+„raw type“. Das ist kein Fehler, sondern nur der Hinweis, dass der Compiler die
+Inhaltstypen nicht prüfen kann. In Processing wird in der Regel kein solcher
+Hinweis angezeigt.
 
 ## Kurze Beispiele
 
