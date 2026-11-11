@@ -23,6 +23,4 @@ void setup() {
 }
 
 void draw() {
-  background(255);
-  text("Queue Beispiel", 20, 30);
 }
