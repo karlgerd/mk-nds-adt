@@ -254,6 +254,12 @@ Bibliotheks-JAR aufgenommen. Beispiel-Sketches für Processing sind unter
 4. Der Release-Workflow baut und hängt die Sources-JAR, die Bibliotheks-JAR,
    die Javadoc-JAR sowie die Processing-ZIP an das GitHub-Release an.
 
+## Autor und Hinweis
+
+Erstellt von Carsten Rohe, Gymnasium Damme, Fachberater Informatik in der Regionalabteilung Osnabrück.
+
+Diese Bibliothek ist **kein offizielles Angebot des Niedersächsischen Kultusministeriums (MK)**. Sie wurde unabhängig auf Grundlage der veröffentlichten *Ergänzenden Hinweise* erstellt und wird vom MK weder herausgegeben noch geprüft oder verantwortet. Verbindlich für Unterricht und Prüfungen sind allein die offiziellen Vorgaben des Ministeriums in ihrer jeweils aktuellen Fassung.
+
 ## Lizenz und Rechte
 
 ### Software (MIT-Lizenz)
