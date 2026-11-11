@@ -4,6 +4,13 @@ on:
   push:
     tags:
       - 'v*'
+  # Ermöglicht den Start von Hand (Actions → Release → Run workflow), z. B. um
+  # die Dateien an ein bereits über die Webseite erstelltes Release anzuhängen.
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag des Releases, z. B. v3.0.0'
+        required: true
 
 permissions:
   contents: write
@@ -11,9 +18,13 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.inputs.tag || github.ref_name }}
     steps:
       - name: Repository auschecken
         uses: actions/checkout@v5
+        with:
+          ref: ${{ env.TAG }}
       - name: JDK 11 einrichten
         uses: actions/setup-java@v5
         with:
@@ -26,10 +37,17 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"
-          gh release create "${GITHUB_REF_NAME}" \
-            "target/mk-nds-adt-${VERSION}-sources.jar" \
-            "target/mk-nds-adt-${VERSION}.jar" \
-            "target/mk-nds-adt-${VERSION}-javadoc.jar" \
-            "target/ADTNiedersachsen.zip" \
-            --generate-notes
+          VERSION="${TAG#v}"
+          FILES=(
+            "target/mk-nds-adt-${VERSION}-sources.jar"
+            "target/mk-nds-adt-${VERSION}.jar"
+            "target/mk-nds-adt-${VERSION}-javadoc.jar"
+            "target/ADTNiedersachsen.zip"
+          )
+          if gh release view "${TAG}" > /dev/null 2>&1; then
+            # Release existiert bereits (z. B. über die Webseite erstellt):
+            # Dateien anhängen bzw. ersetzen.
+            gh release upload "${TAG}" "${FILES[@]}" --clobber
+          else
+            gh release create "${TAG}" "${FILES[@]}" --generate-notes
+          fi
