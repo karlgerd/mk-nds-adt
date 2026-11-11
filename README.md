@@ -19,8 +19,8 @@ laden).
 
 | Ich möchte … | Das passende Paket | Verwendung |
 | --- | --- | --- |
-| die Klassen in einem Java-Projekt verwenden | `mk-nds-adt-2.1.0.jar` auf der [Release-Seite](https://github.com/karlgerd/mk-nds-adt/releases) | JAR als Bibliothek zum Projekt hinzufügen. Die optionale `mk-nds-adt-2.1.0-javadoc.jar` enthält die API-Dokumentation. |
-| nur die Java-Dateien übernehmen | `mk-nds-adt-2.1.0-sources.jar` auf der [Release-Seite](https://github.com/karlgerd/mk-nds-adt/releases) | JAR wie ein ZIP-Archiv öffnen und die vier Dateien aus `mk/nds/adt/` in den Java-Quellordner kopieren. Tests und Beispiele sind nicht enthalten. |
+| die Klassen in einem Java-Projekt verwenden | `mk-nds-adt-3.0.0.jar` auf der [Release-Seite](https://github.com/karlgerd/mk-nds-adt/releases) | JAR als Bibliothek zum Projekt hinzufügen. Die optionale `mk-nds-adt-3.0.0-javadoc.jar` enthält die API-Dokumentation. |
+| nur die Java-Dateien übernehmen | `mk-nds-adt-3.0.0-sources.jar` auf der [Release-Seite](https://github.com/karlgerd/mk-nds-adt/releases) | JAR wie ein ZIP-Archiv öffnen und die vier Dateien aus `mk/nds/adt/` in den Java-Quellordner kopieren. Tests und Beispiele sind nicht enthalten. |
 | Processing verwenden | `mk-nds-adt.zip` auf der [Release-Seite](https://github.com/karlgerd/mk-nds-adt/releases) | ZIP entpacken und den enthaltenen Ordner `mk-nds-adt` in den Processing-Bibliotheksordner kopieren. Processing anschließend neu starten. |
 
 Die Pakete werden bei einem [GitHub-Release](https://github.com/karlgerd/mk-nds-adt/releases)
@@ -43,18 +43,81 @@ beschränkt.
   Struktur. Den Ordner `mk-nds-adt` aus dem Archiv in den Ordner `libraries`
   im Processing-Sketchbook kopieren und Processing neu starten.
 
-## Kurze Beispiele
+## Inhaltstypen
 
-Alle Klassen liegen im Paket `mk.nds.adt`. Die Inhalte sind `Object`-Werte; beim
-Auslesen kann daher ein passender Typ-Cast nötig sein.
+Alle Klassen liegen im Paket `mk.nds.adt` und sind generisch. Beim Anlegen
+wird in spitzen Klammern angegeben, welchen Inhaltstyp die Elemente haben:
+
+```java
+Stack<String> stapel = new Stack<>();
+stapel.push("A");
+String oben = stapel.top();   // kein Typ-Cast nötig
+```
+
+Der Compiler prüft dann, dass nur passende Inhalte abgelegt werden, und beim
+Auslesen ist kein Typ-Cast erforderlich.
+
+### Primitive Datentypen wie `int`, `double` oder `boolean`
+
+In spitzen Klammern dürfen nur Klassen stehen, keine primitiven Datentypen.
+Für jeden primitiven Datentyp gibt es in Java eine passende *Hüllklasse*:
+
+| primitiver Datentyp | Hüllklasse |
+| --- | --- |
+| `int` | `Integer` |
+| `double` | `Double` |
+| `boolean` | `Boolean` |
+| `char` | `Character` |
+| `long` | `Long` |
+
+Die Hüllklasse wird nur bei der Angabe des Inhaltstyps benötigt. Im übrigen
+Programm wird wie gewohnt mit den primitiven Werten gearbeitet: Java wandelt
+einen `int`-Wert beim Ablegen automatisch in ein `Integer`-Objekt um und beim
+Auslesen wieder zurück (*Autoboxing* bzw. *Unboxing*).
+
+```java
+Stack<Integer> stapel = new Stack<>();
+stapel.push(42);              // int-Wert wird direkt übergeben
+int wert = stapel.pop();      // Ergebnis wird direkt als int verwendet
+int summe = wert + 8;
+
+DynArray<Boolean> antworten = new DynArray<>();
+antworten.append(true);
+if (antworten.getItem(0)) {
+    System.out.println("Die erste Antwort ist wahr.");
+}
+```
+
+Eine Besonderheit gibt es beim Vergleichen: Werden zwei ausgelesene Inhalte
+direkt miteinander verglichen, etwa `reihung.getItem(0) == reihung.getItem(1)`,
+vergleicht `==` die Objekte und nicht die Zahlenwerte. Bei kleinen Zahlen
+(von -128 bis 127) liefert das zufällig trotzdem das richtige Ergebnis, bei
+größeren meist nicht. Sicher ist es, die
+Werte zuerst in Variablen vom primitiven Typ zu speichern oder `equals` zu
+verwenden:
+
+```java
+int a = reihung.getItem(0);
+int b = reihung.getItem(1);
+if (a == b) { ... }
+```
+
+### Nutzung ohne Angabe des Inhaltstyps
+
+Die Klassen können auch ohne Inhaltstyp verwendet werden, zum Beispiel
+`Stack stapel = new Stack();`. Die Elemente sind dann vom Typ `Object`, beim
+Auslesen ist ein Typ-Cast nötig, und der Compiler gibt Warnungen aus
+(„unchecked“ bzw. „raw type“). Das Programm läuft trotzdem.
+
+## Kurze Beispiele
 
 ### BinTree
 
 ```java
 import mk.nds.adt.BinTree;
 
-BinTree baum = new BinTree("Wurzel");
-baum.setLeft(new BinTree("Links"));
+BinTree<String> baum = new BinTree<>("Wurzel");
+baum.setLeft(new BinTree<>("Links"));
 System.out.println(baum.getLeft().getItem());
 ```
 
@@ -63,10 +126,12 @@ System.out.println(baum.getLeft().getItem());
 ```java
 import mk.nds.adt.DynArray;
 
-DynArray reihung = new DynArray();
+DynArray<String> reihung = new DynArray<>();
 reihung.append("A");
 reihung.insertAt(1, "B");
-System.out.println(reihung.getItem(0));
+for (String wert : reihung) {
+    System.out.println(wert);
+}
 ```
 
 ### Queue
@@ -74,7 +139,7 @@ System.out.println(reihung.getItem(0));
 ```java
 import mk.nds.adt.Queue;
 
-Queue schlange = new Queue();
+Queue<String> schlange = new Queue<>();
 schlange.enqueue("A");
 System.out.println(schlange.dequeue());
 ```
@@ -84,10 +149,43 @@ System.out.println(schlange.dequeue());
 ```java
 import mk.nds.adt.Stack;
 
-Stack stapel = new Stack();
-stapel.push("A");
-System.out.println(stapel.pop());
+Stack<Integer> stapel = new Stack<>();
+stapel.push(1);
+int wert = stapel.pop();
 ```
+
+In Processing sollte der Inhaltstyp beim Erzeugen ausgeschrieben werden,
+also `new Stack<Integer>()` statt `new Stack<>()`.
+
+## Verhalten bei Fehlern
+
+Laut den Ergänzenden Hinweisen müssen mögliche Laufzeitfehler, etwa das
+Entnehmen bei einem leeren Stapel, bei der Verwendung durch entsprechende
+Abfragen explizit ausgeschlossen werden. Wird eine Operation trotzdem
+unzulässig aufgerufen, lösen die Klassen eine Ausnahme mit deutscher
+Fehlermeldung aus:
+
+| Situation | Ausnahme |
+| --- | --- |
+| Lesen oder Entnehmen, obwohl kein Element vorhanden ist (`top`/`pop` beim leeren Stapel, `head`/`dequeue` bei leerer Schlange, `getItem`/`isLeaf`/`getLeft`/`getRight` beim leeren Baum) | `NoSuchElementException` |
+| Setzen eines Teilbaums bei einem leeren Baum (`setLeft`/`setRight`) | `IllegalStateException` |
+| Index außerhalb des gültigen Bereichs (`DynArray`) | `IndexOutOfBoundsException` |
+| `null` als Inhalt oder als Teilbaum | `IllegalArgumentException` |
+| Einfügen oder Löschen in einer `DynArray` während einer for-each-Schleife über dieselbe Reihung | `ConcurrentModificationException` |
+
+Das Ersetzen eines Inhalts mit `setItem` ist während einer for-each-Schleife
+erlaubt.
+
+## Interne Umsetzung
+
+- `DynArray` speichert die Inhalte in einer statischen Reihung (Array). Ist
+  diese voll, wird sie intern durch eine doppelt so große ersetzt.
+- `Stack` und `Queue` sind als verkettete Listen umgesetzt. Ablegen, Anhängen
+  und Entnehmen benötigen unabhängig von der Anzahl der Elemente immer gleich
+  viel Zeit.
+- `BinTree` ist rekursiv aufgebaut: Jeder nicht leere Baum besteht aus einem
+  Inhalt sowie einem linken und einem rechten Teilbaum, die selbst wieder
+  Binärbäume sind.
 
 ## Für Entwicklerinnen und Entwickler
 
@@ -101,9 +199,9 @@ mvn -B verify
 
 Die Ergebnisse liegen im Ordner `target/`:
 
-- `mk-nds-adt-2.1.0.jar` – Bibliothek mit Java-11-Bytecode
-- `mk-nds-adt-2.1.0-sources.jar` – nur die vier Java-Quelldateien
-- `mk-nds-adt-2.1.0-javadoc.jar` – API-Dokumentation
+- `mk-nds-adt-3.0.0.jar` – Bibliothek mit Java-11-Bytecode
+- `mk-nds-adt-3.0.0-sources.jar` – nur die vier Java-Quelldateien
+- `mk-nds-adt-3.0.0-javadoc.jar` – API-Dokumentation
 - `mk-nds-adt.zip` – Bibliothek im Format für Processing
 
 Die automatischen Tests liegen unter `src/test/java/`. Eigenständige
@@ -118,7 +216,7 @@ Bibliotheks-JAR aufgenommen. Beispiel-Sketches für Processing sind unter
    lesbare Versionsnummer.
 2. Den Eintrag in `CHANGELOG.md` ergänzen und lokal `mvn -B verify` ausführen.
 3. Einen Tag im Format `v<Version>` erstellen und nach GitHub übertragen, zum
-   Beispiel `v2.1.0`.
+   Beispiel `v3.0.0`.
 4. Der Release-Workflow baut und hängt die Sources-JAR, die Bibliotheks-JAR,
    die Javadoc-JAR sowie die Processing-ZIP an das GitHub-Release an.
 
