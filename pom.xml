@@ -6,7 +6,7 @@
 
     <groupId>de.karlgerd</groupId>
     <artifactId>mk-nds-adt</artifactId>
-    <version>2.1.0</version>
+    <version>3.0.0</version>
     <name>mk-nds-adt</name>
     <description>Java-Bibliothek mit ADT-Klassen für den Informatikunterricht in Niedersachsen (auch für Processing nutzbar)</description>
     <url>https://github.com/karlgerd/mk-nds-adt</url>

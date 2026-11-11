@@ -3,33 +3,27 @@
 Dieses Protokoll folgt dem Format [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 Versionsnummern folgen [Semantic Versioning](https://semver.org/lang/de/).
 
-## [Unveröffentlicht]
+## [3.0.0] - Unveröffentlicht
 
-### Geändert
+Erste Veröffentlichung der Bibliothek.
 
-- Repository von `processing-mk-nds-adt` in `mk-nds-adt` umbenannt; alle
-  Verweise auf die alte URL wurden angepasst.
-- Dokumentation (README, Metadaten) beschreibt die Bibliothek nun als
-  allgemeine Java-Bibliothek, die zusätzlich auch in Processing nutzbar ist.
+### Enthalten
 
-## [2.1.0] - 2026-10-08
-
-### Hinzugefügt
-
-- Maven-Build für Java 11, Tests, Sources-JAR, Javadoc-JAR und Processing-ZIP.
-- JUnit-5-Tests für die vier ADT-Klassen.
-- GitHub-Actions-Workflows für Prüfung und Releases.
-- Deutsche Anleitungen für Java- und Processing-Nutzende.
+- Die Klassen `DynArray`, `Stack`, `Queue` und `BinTree` im Paket
+  `mk.nds.adt` mit den Operationen und dem Verhalten gemäß den Ergänzenden
+  Hinweisen für das Fach Informatik (Neufassung, Stand Juni 2025).
+- Generische Inhaltstypen (`DynArray<String>`, `Stack<Integer>` usw.); die
+  Nutzung ohne Typangabe ist weiterhin möglich.
+- `DynArray` auf Basis einer statischen Reihung mit interner Vergrößerung;
+  iterierbar mit for-each-Schleife, Absicherung gegen Einfügen und Löschen
+  während des Durchlaufens.
+- `Stack` und `Queue` als verkettete Listen mit Zugriff in konstanter Zeit.
+- `BinTree` als rekursive Struktur.
+- Einheitliche Ausnahmen mit deutschen Fehlermeldungen bei unzulässigen
+  Aufrufen.
+- JUnit-5-Tests für alle vier Klassen.
+- Java-Beispiele und Processing-Beispiel-Sketches.
+- Maven-Build für Java 11 mit Bibliotheks-JAR, Sources-JAR, Javadoc-JAR und
+  Processing-ZIP sowie GitHub-Actions-Workflows für Prüfung und Releases.
 - MIT-Lizenz (`LICENSE`); das PDF des Niedersächsischen Kultusministeriums ist
   ausdrücklich von der Lizenz ausgenommen.
-
-### Geändert
-
-- Java-Quellen und Java-Beispiele in getrennte Standardverzeichnisse verschoben.
-- Processing-Metadaten vervollständigt und fehlerhafte Umlaute korrigiert.
-- Javadoc-Kommentare und interne Elementklassen bereinigt.
-
-### Entfernt
-
-- Eingecheckte JAR-, Javadoc-, ZIP- und IDE-Build-Artefakte; diese werden nun
-  beim Build erzeugt.
