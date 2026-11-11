@@ -3,7 +3,7 @@
 Dieses Protokoll folgt dem Format [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 Versionsnummern folgen [Semantic Versioning](https://semver.org/lang/de/).
 
-## [3.0.0] - Unveröffentlicht
+## [3.0.0] - 2026-11-11
 
 Erste Veröffentlichung der Bibliothek.
 
