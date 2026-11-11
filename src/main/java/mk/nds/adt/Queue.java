@@ -1,118 +1,128 @@
 package mk.nds.adt;
 
+import java.util.NoSuchElementException;
+
 /**
  * Klasse Queue zur Umsetzung des ADT Schlange entsprechend der Vorgaben des KC
  * Informatik für die gymnasiale Oberstufe in Niedersachsen und den ergänzenden
- * Hinweisen (Stand: Juni 2025)
+ * Hinweisen (Stand: Juni 2025).
+ * <p>
+ * Intern wird die Schlange als einfach verkettete Liste umgesetzt. Die Schlange
+ * kennt ihr vorderstes und ihr letztes Element; jedes Element verweist auf das
+ * nachfolgende. Angehängt wird am Ende, entnommen wird vorne. Daher benötigen
+ * enqueue, dequeue und head unabhängig von der Größe der Schlange stets gleich
+ * viel Zeit.
  *
+ * @param <ContentType> Der Inhaltstyp der Elemente der Schlange.
  * @author Carsten Rohe (erstellt für das Landesnetzwerk Informatik Niedersachsen)
- * @version 2025.09.22
+ * @version 2026.11.11
  */
-public class Queue {
-	private int length;
-	private Element head;
+public class Queue<ContentType> {
+
+	/** Das vorderste Element der Schlange; {@code null} bei einer leeren Schlange. */
+	private Node<ContentType> headNode;
+
+	/** Das letzte Element der Schlange; {@code null} bei einer leeren Schlange. */
+	private Node<ContentType> tailNode;
 
 	/**
 	 * Eine leere Schlange wird angelegt.
 	 */
 	public Queue() {
-		length = 0;
-		head = null;
+		headNode = null;
+		tailNode = null;
 	}
 
 	/**
-	 * Es wird geprüft, ob die Schlange leer ist.
+	 * Wenn die Schlange kein Element enthält, wird der Wert wahr zurückgegeben,
+	 * sonst der Wert falsch.
 	 *
-	 * @return Wenn die Schlange kein Element enthält, wird der Wert true zurückgegeben, sonst der Wert false.
+	 * @return {@code true}, wenn die Schlange leer ist, sonst {@code false}.
 	 */
 	public boolean isEmpty() {
-		return length == 0;
+		return headNode == null;
 	}
 
 	/**
-	 * Der Inhalt des ersten Elements der Schlange wird ausgelesen. Das Element wird
-	 * dabei aber nicht aus der Schlange entfernt.
+	 * Der Inhalt des vordersten Elements der Schlange wird zurückgegeben, das
+	 * Element aber nicht entnommen.
 	 *
-	 * @return Der Inhalt des ersten Elements der Schlange.
-	 * @throws IllegalStateException Wird ausgelöst, wenn die Schlange leer ist.
+	 * @return Der Inhalt des vordersten Elements.
+	 * @throws NoSuchElementException Wird ausgelöst, wenn die Schlange leer ist.
 	 */
-	public Object head() {
+	public ContentType head() {
 		if (isEmpty()) {
-			throw new IllegalStateException("Die Schlange ist leer. Es kann kein Wert ausgelesen werden.");
+			throw new NoSuchElementException("Die Schlange ist leer. Es kann kein Inhalt ausgelesen werden.");
 		}
-		return head.data;
+		return headNode.content;
 	}
 
 	/**
-	 * Ein neues Element mit dem übergebenen Inhalt wird an die Schlange angehängt.
+	 * Ein neues Element mit dem angegebenen Inhalt wird am Ende an die Schlange
+	 * angehängt.
 	 *
-	 * @param data Der Inhalt für das neue Element.
-	 * @throws IllegalArgumentException Wird ausgelöst, wenn der übergebene Inhalt 'null' ist.
+	 * @param content Der Inhalt des neuen Elements.
+	 * @throws IllegalArgumentException Wird ausgelöst, wenn der übergebene Inhalt
+	 *                                  {@code null} ist.
 	 */
-	public void enqueue(Object data) {
-		if (data == null) {
+	public void enqueue(ContentType content) {
+		if (content == null) {
 			throw new IllegalArgumentException("Der übergebene Inhalt darf nicht 'null' sein.");
 		}
-		if (!isEmpty()) {
-			getElement(length - 1).next = new Element(data);
+		Node<ContentType> newNode = new Node<>(content);
+		if (isEmpty()) {
+			// Das einzige Element ist zugleich das vorderste und das letzte.
+			headNode = newNode;
 		} else {
-			head = new Element(data);
+			// Das neue Element wird hinter das bisher letzte gehängt.
+			tailNode.next = newNode;
 		}
-		length++;
+		tailNode = newNode;
 	}
 
 	/**
-	 * Das erste Element der Schlange wird entnommen und dessen Inhalt
-	 * zurückgegeben.
+	 * Das vorderste Element der Schlange wird entnommen. Der Inhalt dieses
+	 * Elements wird zurückgegeben.
 	 *
 	 * @return Der Inhalt des entnommenen Elements.
-	 * @throws IllegalStateException Wird ausgelöst, wenn die Schlange leer ist.
+	 * @throws NoSuchElementException Wird ausgelöst, wenn die Schlange leer ist.
 	 */
-	public Object dequeue() {
+	public ContentType dequeue() {
 		if (isEmpty()) {
-			throw new IllegalStateException("Die Schlange ist leer. Es kann kein Wert entnommen werden.");
+			throw new NoSuchElementException("Die Schlange ist leer. Es kann kein Element entnommen werden.");
 		}
-		Element temp = head;
-		head = head.next;
-		length--;
-		return temp.data;
+		ContentType content = headNode.content;
+		// Das nachfolgende Element wird zum neuen vordersten.
+		headNode = headNode.next;
+		if (headNode == null) {
+			// Die Schlange ist jetzt leer, daher gibt es auch kein letztes Element mehr.
+			tailNode = null;
+		}
+		return content;
 	}
 
-	private Element getElement(int index) {
-		// Interne Hilfsoperation zum vereinfachten Zugriff auf die Elemente der Reihung
-		// durch die öffentlichen Operationen
-		if (index < 0 || index >= length) {
-			throw new IndexOutOfBoundsException("Index " + index + " ist außerhalb des gültigen Bereichs.");
-		}
-		Element current = head;
-		for (int i = 0; i < index; i++) {
-			current = current.next;
-		}
-		return current;
-	}
+	/**
+	 * Interne Klasse für ein einzelnes Element (einen Knoten) der Schlange.
+	 *
+	 * @param <ContentType> Der Inhaltstyp des Elements.
+	 */
+	private static class Node<ContentType> {
 
-	// Klasse Element zur internen Verwaltung der einzelnen Elemente der Schlange
-	private static class Element {
-		/**
-		 * Der im Element gespeicherte Inhalt.
-		 */
-		private Object data;
-		/**
-		 * Das nächste Element der Schlange.
-		 */
-		private Element next;
+		/** Der im Element gespeicherte Inhalt. */
+		private ContentType content;
+
+		/** Das nachfolgende Element; {@code null} beim letzten Element. */
+		private Node<ContentType> next;
 
 		/**
-		 * Erzeugt ein Element mit dem angegebenen Inhalt.
+		 * Ein Element mit dem übergebenen Inhalt wird erzeugt. Es hat noch keinen
+		 * Nachfolger.
 		 *
-		 * @param d der Inhalt des Elements
+		 * @param content Der Inhalt des Elements.
 		 */
-		private Element(Object d) {
-			if (d == null) {
-				throw new IllegalArgumentException("Das Element darf nicht 'null' sein.");
-			}
-			data = d;
-			next = null;
+		private Node(ContentType content) {
+			this.content = content;
+			this.next = null;
 		}
-	} // Ende der Klasse Element
-} // Ende der Klasse Queue
+	}
+}
