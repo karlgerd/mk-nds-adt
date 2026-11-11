@@ -1,8 +1,12 @@
 # mk-nds-adt
 
 `mk-nds-adt` stellt die vier Java-Datentypen `BinTree`, `DynArray`, `Queue` und
-`Stack` für den Informatikunterricht in Niedersachsen bereit. Die Klassen
-orientieren sich an den *Ergänzenden Hinweisen für das Fach Informatik* des
+`Stack` für den Informatikunterricht in Niedersachsen bereit. Alle vier Klassen
+sind mit generischen Typen umgesetzt: Der Inhaltstyp wird beim Anlegen
+angegeben, zum Beispiel `Stack<String>` oder `DynArray<Integer>`, sodass beim
+Auslesen keine Typ-Casts nötig sind (siehe [Inhaltstypen](#inhaltstypen)).
+
+Die Klassen orientieren sich an den *Ergänzenden Hinweisen für das Fach Informatik* des
 Niedersächsischen Kultusministeriums (Neufassung, Stand Juni 2025). Maßgeblich
 sind die offiziellen Vorgaben; diese Bibliothek ist eine Implementierung
 dieser Vorgaben und kein Ersatz für das Dokument.
