@@ -88,18 +88,52 @@ if (antworten.getItem(0)) {
 }
 ```
 
-Eine Besonderheit gibt es beim Vergleichen: Werden zwei ausgelesene Inhalte
-direkt miteinander verglichen, etwa `reihung.getItem(0) == reihung.getItem(1)`,
-vergleicht `==` die Objekte und nicht die Zahlenwerte. Bei kleinen Zahlen
-(von -128 bis 127) liefert das zufällig trotzdem das richtige Ergebnis, bei
-größeren meist nicht. Sicher ist es, die
-Werte zuerst in Variablen vom primitiven Typ zu speichern oder `equals` zu
-verwenden:
+### Ausgelesene Zahlen vergleichen
+
+Beim Vergleichen mit `==` ist eine Eigenschaft von Java zu beachten, die alle
+generischen Datenstrukturen betrifft, zum Beispiel auch Javas eigene
+`ArrayList<Integer>`: Operationen wie `getItem`, `top` oder `dequeue` liefern
+Objekte der Hüllklasse, also etwa ein `Integer`-Objekt und keinen `int`-Wert.
+Stehen auf **beiden** Seiten von `==` solche Objekte, prüft Java, ob es sich um
+*dasselbe Objekt* handelt, und nicht, ob die Zahlenwerte übereinstimmen.
+
+Sobald dagegen mindestens eine Seite ein primitiver Wert ist, vergleicht Java
+wie gewohnt die Zahlenwerte. Daraus ergibt sich eine einfache Arbeitsweise:
+
+**Ausgelesene Zahlen zuerst in einer Variablen vom primitiven Typ speichern und
+dann mit dieser Variablen rechnen und vergleichen.**
 
 ```java
-int a = reihung.getItem(0);
-int b = reihung.getItem(1);
-if (a == b) { ... }
+DynArray<Integer> reihung = new DynArray<>();
+reihung.append(1000);
+reihung.append(1000);
+
+int erster = reihung.getItem(0);
+int zweiter = reihung.getItem(1);
+if (erster == zweiter) {                 // vergleicht die Zahlenwerte
+    System.out.println("Die Werte sind gleich.");
+}
+```
+
+Diese Schreibweise ist ohnehin gut lesbar und entspricht dem üblichen Vorgehen
+in Algorithmen. Ebenso unproblematisch sind Vergleiche mit einer Zahl oder
+einer `int`-Variablen:
+
+```java
+if (reihung.getItem(0) == 1000) { ... }        // korrekt
+if (reihung.getItem(0) > reihung.getItem(1)) { ... }   // korrekt: <, >, <=, >=
+                                                       // vergleichen immer Zahlenwerte
+```
+
+Nur der direkte Vergleich zweier ausgelesener Inhalte mit `==` oder `!=`, also
+`reihung.getItem(0) == reihung.getItem(1)`, sollte vermieden werden. Dass er
+in kleinen Tests manchmal trotzdem das erwartete Ergebnis liefert, liegt an
+einer internen Optimierung von Java für kleine Zahlen; darauf darf man sich
+nicht verlassen. Wer zwei Inhalte direkt vergleichen möchte, verwendet
+`equals` – so, wie man es auch von Zeichenketten kennt:
+
+```java
+if (reihung.getItem(0).equals(reihung.getItem(1))) { ... }
 ```
 
 ### Nutzung ohne Angabe des Inhaltstyps
