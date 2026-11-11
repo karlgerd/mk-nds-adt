@@ -23,8 +23,6 @@ void setup() {
 }
 
 void draw() {
-  background(255);
-  text("BinTree Beispiel", 20, 30);
 }
 
 // Gibt die Inhalte rekursiv in der Reihenfolge links - Wurzel - rechts aus
