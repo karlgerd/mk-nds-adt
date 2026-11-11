@@ -1,168 +1,196 @@
 package mk.nds.adt;
 
+import java.util.NoSuchElementException;
+
 /**
  * Klasse BinTree zur Umsetzung des ADT Binärbaum entsprechend der Vorgaben des
  * KC Informatik für die gymnasiale Oberstufe in Niedersachsen und den
- * ergänzenden Hinweisen (Stand: Juni 2025)
+ * ergänzenden Hinweisen (Stand: Juni 2025).
+ * <p>
+ * Der Binärbaum ist rekursiv aufgebaut: Ein nicht leerer Baum besteht aus
+ * einem Inhalt (der Wurzel) sowie einem linken und einem rechten Teilbaum, die
+ * selbst wieder Binärbäume sind. Ein leerer Baum besitzt keinen Inhalt und
+ * keine Teilbäume.
+ * <p>
+ * Bei einem leeren Baum lösen getItem, isLeaf, getLeft, getRight, setLeft und
+ * setRight eine Ausnahme aus.
  *
+ * @param <ContentType> Der Inhaltstyp der Knoten des Binärbaums.
  * @author Carsten Rohe (erstellt für das Landesnetzwerk Informatik Niedersachsen)
- * @version 2025.09.22
+ * @version 2026.11.11
  */
-public class BinTree {
-	private Object item;
-	private BinTree left;
-	private BinTree right;
+public class BinTree<ContentType> {
+
+	/** Der Inhalt der Wurzel; {@code null} bei einem leeren Baum. */
+	private ContentType content;
+
+	/** Der linke Teilbaum; {@code null} bei einem leeren Baum. */
+	private BinTree<ContentType> left;
+
+	/** Der rechte Teilbaum; {@code null} bei einem leeren Baum. */
+	private BinTree<ContentType> right;
 
 	/**
-	 * Ein leerer Baum wird erzeugt. Er besitzt keinen Inhalt und keine Teilbäume.
+	 * Ein leerer Baum wird erzeugt. Er besitzt keinen Inhalt und keine
+	 * Teilbäume.
 	 */
 	public BinTree() {
-		this.item = null;
-		this.left = null;
-		this.right = null;
+		content = null;
+		left = null;
+		right = null;
 	}
 
 	/**
-	 * Ein Baum wird erzeugt. Die Wurzel erhält den übergebenen Inhalt als Wert. Der
-	 * Baum besitzt jeweils einen leeren Baum als linken und rechten Teilbaum.
+	 * Ein Baum wird erzeugt. Die Wurzel erhält den übergebenen Inhalt als Wert.
+	 * Der Baum besitzt jeweils einen leeren Baum als linken und rechten
+	 * Teilbaum.
 	 *
-	 * @param inhalt Der Inhalt für die Wurzel des neuen Baums.
-	 * @throws IllegalArgumentException Wird ausgelöst, wenn der übergebene Inhalt 'null' ist.
+	 * @param content Der Inhalt der Wurzel.
+	 * @throws IllegalArgumentException Wird ausgelöst, wenn der übergebene Inhalt
+	 *                                  {@code null} ist.
 	 */
-	public BinTree(Object inhalt) {
-		if (inhalt == null) {
+	public BinTree(ContentType content) {
+		if (content == null) {
 			throw new IllegalArgumentException(
 					"Der Baum kann nicht erzeugt werden. Der übergebene Inhalt darf nicht 'null' sein.");
 		}
-		this.item = inhalt;
-		this.left = new BinTree();
-		this.right = new BinTree();
+		this.content = content;
+		left = new BinTree<>();
+		right = new BinTree<>();
 	}
 
 	/**
-	 * Prüft, ob der Baum leer ist.
+	 * Wenn der Baum ein leerer Baum ist, wird der Wert wahr zurückgegeben, sonst
+	 * der Wert falsch.
 	 *
-	 * @return Wenn der Baum ein leerer Baum ist, wird der Wert wahr zurückgegeben, sonst der Wert falsch.
+	 * @return {@code true}, wenn der Baum leer ist, sonst {@code false}.
 	 */
 	public boolean isEmpty() {
-		return item == null && left == null && right == null;
+		// Ein nicht leerer Baum hat immer einen Inhalt, ein leerer nie.
+		return content == null;
 	}
 
 	/**
-	 * Gibt den Inhaltswert der Wurzel zurück.
+	 * Die Operation gibt den Inhaltswert der Wurzel des Baumes zurück.
 	 *
-	 * @return Der Inhaltswert der Wurzel.
-	 * @throws IllegalStateException Wird ausgelöst, wenn der Baum leer ist.
+	 * @return Der Inhalt der Wurzel.
+	 * @throws NoSuchElementException Wird ausgelöst, wenn der Baum leer ist.
 	 */
-	public Object getItem() {
+	public ContentType getItem() {
 		if (isEmpty()) {
-			throw new IllegalStateException("Der Baum ist leer. Es kann kein Inhalt ausgelesen werden.");
+			throw new NoSuchElementException("Der Baum ist leer. Es kann kein Inhalt ausgelesen werden.");
 		}
-		return item;
+		return content;
 	}
 
 	/**
-	 * Die Wurzel des Baums erhält den übergebenen Inhalt als Wert. Bei einem leeren
-	 * Baum wird zusätzlich als linker und rechter Teilbaum jeweils ein leerer Baum
-	 * gesetzt.
+	 * Die Wurzel des Baums erhält den übergebenen Inhalt als Wert. Bei einem
+	 * leeren Baum wird zusätzlich als linker und rechter Teilbaum jeweils ein
+	 * leerer Baum gesetzt.
 	 *
-	 * @param inhalt Der neue Inhaltswert für die Wurzel.
-	 * @throws IllegalArgumentException Wird ausgelöst, wenn der übergebene Inhalt 'null' ist.
+	 * @param content Der neue Inhalt der Wurzel.
+	 * @throws IllegalArgumentException Wird ausgelöst, wenn der übergebene Inhalt
+	 *                                  {@code null} ist.
 	 */
-	public void setItem(Object inhalt) {
-		if (inhalt == null) {
+	public void setItem(ContentType content) {
+		if (content == null) {
 			throw new IllegalArgumentException(
-					"Der Wert kann nicht gesetzt werden. Der übergebene Inhalt darf nicht 'null' sein.");
+					"Der Inhalt kann nicht gesetzt werden. Der übergebene Inhalt darf nicht 'null' sein.");
 		}
 		if (isEmpty()) {
-			this.left = new BinTree();
-			this.right = new BinTree();
+			// Aus dem leeren Baum wird ein Blatt mit zwei leeren Teilbäumen.
+			left = new BinTree<>();
+			right = new BinTree<>();
 		}
-		this.item = inhalt;
+		this.content = content;
 	}
 
 	/**
-	 * Prüft, ob der Baum ein Blatt ist.
+	 * Wenn der Baum jeweils einen leeren Baum als linken und rechten Teilbaum
+	 * besitzt, also ein Blatt ist, wird der Wert wahr zurückgegeben, sonst der
+	 * Wert falsch.
 	 *
-	 * @return Wenn der Baum jeweils einen leeren Baum als linken und rechten Teilbaum besitzt, also ein Blatt ist, wird der Wert wahr zurückgegeben, sonst der Wert falsch.
-	 * @throws IllegalStateException Wird ausgelöst, wenn der Baum leer ist.
+	 * @return {@code true}, wenn der Baum ein Blatt ist, sonst {@code false}.
+	 * @throws NoSuchElementException Wird ausgelöst, wenn der Baum leer ist.
 	 */
 	public boolean isLeaf() {
 		if (isEmpty()) {
-			throw new IllegalStateException("Der Baum ist leer. Überprüfung auf 'isLeaf' nicht möglich.");
+			throw new NoSuchElementException("Der Baum ist leer. Es kann nicht geprüft werden, ob er ein Blatt ist.");
 		}
 		return left.isEmpty() && right.isEmpty();
 	}
 
 	/**
-	 * Gibt den linken Teilbaum zurück.
+	 * Die Operation gibt den linken Teilbaum zurück.
 	 *
 	 * @return Der linke Teilbaum.
-	 * @throws IllegalStateException Wird ausgelöst, wenn der Baum leer ist.
+	 * @throws NoSuchElementException Wird ausgelöst, wenn der Baum leer ist.
 	 */
-	public BinTree getLeft() {
+	public BinTree<ContentType> getLeft() {
 		if (isEmpty()) {
-			throw new IllegalStateException("Der Baum ist leer. Es ist kein linker Teilbaum vorhanden.");
+			throw new NoSuchElementException("Der Baum ist leer. Es ist kein linker Teilbaum vorhanden.");
 		}
 		return left;
 	}
 
 	/**
-	 * Setzt den linken Teilbaum.
+	 * Der übergebene Baum wird als linker Teilbaum gesetzt.
 	 *
-	 * @param b Der Baum, der als linker Teilbaum gesetzt werden soll.
+	 * @param tree Der neue linke Teilbaum.
 	 * @throws IllegalStateException    Wird ausgelöst, wenn der Baum leer ist.
-	 * @throws IllegalArgumentException Wird ausgelöst, wenn der übergebene Wert 'null' ist.
+	 * @throws IllegalArgumentException Wird ausgelöst, wenn der übergebene Baum
+	 *                                  {@code null} ist.
 	 */
-	public void setLeft(BinTree b) {
+	public void setLeft(BinTree<ContentType> tree) {
 		if (isEmpty()) {
 			throw new IllegalStateException("Der Baum ist leer. Es kann kein linker Teilbaum gesetzt werden.");
 		}
-		if (b == null) {
+		if (tree == null) {
 			throw new IllegalArgumentException(
-					"Der Wert kann nicht gesetzt werden. Der übergebene Baum darf nicht 'null' sein.");
+					"Der Teilbaum kann nicht gesetzt werden. Der übergebene Baum darf nicht 'null' sein.");
 		}
-		this.left = b;
+		left = tree;
 	}
 
 	/**
-	 * Gibt den rechten Teilbaum zurück.
+	 * Die Operation gibt den rechten Teilbaum zurück.
 	 *
 	 * @return Der rechte Teilbaum.
-	 * @throws IllegalStateException Wird ausgelöst, wenn der Baum leer ist.
+	 * @throws NoSuchElementException Wird ausgelöst, wenn der Baum leer ist.
 	 */
-	public BinTree getRight() {
+	public BinTree<ContentType> getRight() {
 		if (isEmpty()) {
-			throw new IllegalStateException("Der Baum ist leer. Es ist kein rechter Teilbaum vorhanden.");
+			throw new NoSuchElementException("Der Baum ist leer. Es ist kein rechter Teilbaum vorhanden.");
 		}
 		return right;
 	}
 
 	/**
-	 * Setzt den rechten Teilbaum.
+	 * Der übergebene Baum wird als rechter Teilbaum gesetzt.
 	 *
-	 * @param b Der Baum, der als rechter Teilbaum gesetzt werden soll.
+	 * @param tree Der neue rechte Teilbaum.
 	 * @throws IllegalStateException    Wird ausgelöst, wenn der Baum leer ist.
-	 * @throws IllegalArgumentException Wird ausgelöst, wenn der übergebene Wert 'null' ist.
+	 * @throws IllegalArgumentException Wird ausgelöst, wenn der übergebene Baum
+	 *                                  {@code null} ist.
 	 */
-	public void setRight(BinTree b) {
+	public void setRight(BinTree<ContentType> tree) {
 		if (isEmpty()) {
 			throw new IllegalStateException("Der Baum ist leer. Es kann kein rechter Teilbaum gesetzt werden.");
 		}
-		if (b == null) {
+		if (tree == null) {
 			throw new IllegalArgumentException(
-					"Der Wert kann nicht gesetzt werden. Der übergebene Baum darf nicht 'null' sein.");
+					"Der Teilbaum kann nicht gesetzt werden. Der übergebene Baum darf nicht 'null' sein.");
 		}
-		this.right = b;
+		right = tree;
 	}
 
 	/**
-	 * Der Baum wird zu einem leeren Baum, d.h. er besitzt keinen Inhalt und keine
-	 * Teilbäume.
+	 * Der Baum wird zu einem leeren Baum, d. h. er besitzt keinen Inhalt und
+	 * keine Teilbäume.
 	 */
 	public void setEmpty() {
-		this.item = null;
-		this.left = null;
-		this.right = null;
+		content = null;
+		left = null;
+		right = null;
 	}
 }

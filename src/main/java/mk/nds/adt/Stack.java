@@ -1,121 +1,113 @@
 package mk.nds.adt;
 
+import java.util.NoSuchElementException;
+
 /**
  * Klasse Stack zur Umsetzung des ADT Stapel entsprechend der Vorgaben des KC
  * Informatik für die gymnasiale Oberstufe in Niedersachsen und den ergänzenden
- * Hinweisen (Stand: Juni 2025)
+ * Hinweisen (Stand: Juni 2025).
+ * <p>
+ * Intern wird der Stapel als einfach verkettete Liste umgesetzt. Der Stapel
+ * kennt nur sein oberstes Element; jedes Element verweist auf das darunter
+ * liegende. Abgelegt und entnommen wird immer vorne an der Liste, daher
+ * benötigen push, pop und top unabhängig von der Größe des Stapels stets
+ * gleich viel Zeit.
  *
+ * @param <ContentType> Der Inhaltstyp der Elemente des Stapels.
  * @author Carsten Rohe (erstellt für das Landesnetzwerk Informatik Niedersachsen)
- * @version 2025.09.22
+ * @version 2026.11.11
  */
-public class Stack {
-	private int length;
-	private Element bottom;
+public class Stack<ContentType> {
+
+	/** Das oberste Element des Stapels; {@code null} bei einem leeren Stapel. */
+	private Node<ContentType> topNode;
 
 	/**
 	 * Ein leerer Stapel wird angelegt.
 	 */
 	public Stack() {
-		length = 0;
-		bottom = null;
+		topNode = null;
 	}
 
 	/**
-	 * Es wird geprüft, ob der Stapel leer ist.
+	 * Wenn der Stapel kein Element enthält, wird der Wert wahr zurückgegeben,
+	 * sonst der Wert falsch.
 	 *
-	 * @return Wenn der Stapel kein Element enthält, wird der Wert true zurückgegeben, sonst der Wert false.
+	 * @return {@code true}, wenn der Stapel leer ist, sonst {@code false}.
 	 */
 	public boolean isEmpty() {
-		return length == 0;
+		return topNode == null;
 	}
 
 	/**
-	 * Der Inhalt des obersten Elements des Stapels wird ausgelesen. Das Element
-	 * wird dabei nicht aus dem Stapel entfernt.
+	 * Der Inhalt des obersten Elements des Stapels wird zurückgegeben, das Element
+	 * aber nicht entnommen.
 	 *
-	 * @return Der Inhalt des obersten Elements des Stapels.
-	 * @throws IllegalStateException Wird ausgelöst, wenn der Stapel leer ist.
+	 * @return Der Inhalt des obersten Elements.
+	 * @throws NoSuchElementException Wird ausgelöst, wenn der Stapel leer ist.
 	 */
-	public Object top() {
+	public ContentType top() {
 		if (isEmpty()) {
-			throw new IllegalStateException("Der Stapel ist leer. Es kann kein Wert ausgelesen werden.");
+			throw new NoSuchElementException("Der Stapel ist leer. Es kann kein Inhalt ausgelesen werden.");
 		}
-		return getElement(length - 1).data;
+		return topNode.content;
 	}
 
 	/**
-	 * Ein neues Element mit dem übergebenen Inhalt wird auf dem Stapel abgelegt.
+	 * Ein neues Element mit dem übergebenen Inhalt wird oben auf den Stapel
+	 * gelegt.
 	 *
-	 * @param data Der Inhalt für das neue Element.
-	 * @throws IllegalArgumentException Wird ausgelöst, wenn der übergebene Inhalt 'null' ist.
+	 * @param content Der Inhalt des neuen Elements.
+	 * @throws IllegalArgumentException Wird ausgelöst, wenn der übergebene Inhalt
+	 *                                  {@code null} ist.
 	 */
-	public void push(Object data) {
-		if (data == null) {
+	public void push(ContentType content) {
+		if (content == null) {
 			throw new IllegalArgumentException("Der übergebene Inhalt darf nicht 'null' sein.");
 		}
-		if (!isEmpty()) {
-			getElement(length - 1).next = new Element(data);
-		} else {
-			bottom = new Element(data);
-		}
-		length++;
+		// Das neue Element verweist auf das bisher oberste und wird selbst das oberste.
+		topNode = new Node<>(content, topNode);
 	}
 
 	/**
-	 * Das oberste Element des Stapels wird entnommen und dessen Inhalt
-	 * zurückgegeben.
+	 * Das oberste Element des Stapels wird entnommen. Der Inhalt dieses Elements
+	 * wird zurückgegeben.
 	 *
 	 * @return Der Inhalt des entnommenen Elements.
-	 * @throws IllegalStateException Wird ausgelöst, wenn der Stapel leer ist.
+	 * @throws NoSuchElementException Wird ausgelöst, wenn der Stapel leer ist.
 	 */
-	public Object pop() {
+	public ContentType pop() {
 		if (isEmpty()) {
-			throw new IllegalStateException("Der Stapel ist leer. Es kann kein Wert entnommen werden.");
+			throw new NoSuchElementException("Der Stapel ist leer. Es kann kein Element entnommen werden.");
 		}
-		Element temp = getElement(length - 1);
-		if (length > 1) {
-			getElement(length - 2).next = null;
-		} else {
-			bottom = null;
-		}
-		length--;
-		return temp.data;
+		ContentType content = topNode.content;
+		// Das darunter liegende Element wird zum neuen obersten.
+		topNode = topNode.next;
+		return content;
 	}
 
-	private Element getElement(int index) {
-		// Interne Hilfsoperation zum vereinfachten Zugriff auf die Elemente des Stapels
-		if (index < 0 || index >= length) {
-			throw new IndexOutOfBoundsException("Index " + index + " ist außerhalb des gültigen Bereichs.");
-		}
-		Element current = bottom;
-		for (int i = 0; i < index; i++) {
-			current = current.next;
-		}
-		return current;
-	}
+	/**
+	 * Interne Klasse für ein einzelnes Element (einen Knoten) des Stapels.
+	 *
+	 * @param <ContentType> Der Inhaltstyp des Elements.
+	 */
+	private static class Node<ContentType> {
 
-	// Klasse Element zur internen Verwaltung der einzelnen Elemente des Stapels
-	private static class Element {
-		/**
-		 * Der im Element gespeicherte Inhalt.
-		 */
-		private Object data;
-		/**
-		 * Das nächste Element des Stapels.
-		 */
-		private Element next;
+		/** Der im Element gespeicherte Inhalt. */
+		private ContentType content;
+
+		/** Das darunter liegende Element; {@code null} beim untersten Element. */
+		private Node<ContentType> next;
 
 		/**
-		 * Erzeugt ein Element mit dem angegebenen Inhalt.
+		 * Ein Element mit dem übergebenen Inhalt und Nachfolger wird erzeugt.
 		 *
-		 * @param d der Inhalt des Elements
+		 * @param content Der Inhalt des Elements.
+		 * @param next    Das darunter liegende Element.
 		 */
-		private Element(Object d) {
-			if (d == null) {
-				throw new IllegalArgumentException("Das Element darf nicht 'null' sein.");
-			}
-			data = d;
-			next = null;
+		private Node(ContentType content, Node<ContentType> next) {
+			this.content = content;
+			this.next = next;
 		}
-	} // Ende der Klasse Element
-} // Ende der Klasse Stack
+	}
+}

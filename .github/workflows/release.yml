@@ -13,9 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Repository auschecken
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: JDK 11 einrichten
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '11'
@@ -31,5 +31,5 @@ jobs:
             "target/mk-nds-adt-${VERSION}-sources.jar" \
             "target/mk-nds-adt-${VERSION}.jar" \
             "target/mk-nds-adt-${VERSION}-javadoc.jar" \
-            "target/mk-nds-adt.zip" \
+            "target/ADTNiedersachsen.zip" \
             --generate-notes

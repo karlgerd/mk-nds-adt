@@ -4,7 +4,7 @@ import mk.nds.adt.Stack;
 
 public class StackExample {
     public static void main(String[] args) {
-        Stack stapel = new Stack();
+        Stack<String> stapel = new Stack<>();
         System.out.println("Stapel ist leer: " + stapel.isEmpty());
 
         // Zeichenketten auf den Stapel legen
@@ -13,12 +13,15 @@ public class StackExample {
         stapel.push("Charlie");
         System.out.println("Stapel ist leer: " + stapel.isEmpty());
 
-        // Oberstes Element auslesen
-        System.out.println("Oberstes Element: " + (String) stapel.top());
+        // Oberstes Element auslesen (nur wenn der Stapel nicht leer ist)
+        if (!stapel.isEmpty()) {
+            System.out.println("Oberstes Element: " + stapel.top());
+        }
 
-        // Alle Elemente mit pop entfernen und ausgeben
+        // Alle Elemente mit pop entnehmen und ausgeben
         while (!stapel.isEmpty()) {
-            System.out.println("Entfernt: " + (String) stapel.pop());
+            String wert = stapel.pop();
+            System.out.println("Entnommen: " + wert);
         }
 
         // Stapel ist wieder leer
