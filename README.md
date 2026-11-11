@@ -21,7 +21,7 @@ laden).
 | --- | --- | --- |
 | die Klassen in einem Java-Projekt verwenden | `mk-nds-adt-3.0.0.jar` auf der [Release-Seite](https://github.com/karlgerd/mk-nds-adt/releases) | JAR als Bibliothek zum Projekt hinzufügen. Die optionale `mk-nds-adt-3.0.0-javadoc.jar` enthält die API-Dokumentation. |
 | nur die Java-Dateien übernehmen | `mk-nds-adt-3.0.0-sources.jar` auf der [Release-Seite](https://github.com/karlgerd/mk-nds-adt/releases) | JAR wie ein ZIP-Archiv öffnen und die vier Dateien aus `mk/nds/adt/` in den Java-Quellordner kopieren. Tests und Beispiele sind nicht enthalten. |
-| Processing verwenden | `mk-nds-adt.zip` auf der [Release-Seite](https://github.com/karlgerd/mk-nds-adt/releases) | ZIP entpacken und den enthaltenen Ordner `mk-nds-adt` in den Processing-Bibliotheksordner kopieren. Processing anschließend neu starten. |
+| Processing verwenden | `ADTNiedersachsen.zip` auf der [Release-Seite](https://github.com/karlgerd/mk-nds-adt/releases) | ZIP entpacken und den enthaltenen Ordner `ADTNiedersachsen` in den Processing-Bibliotheksordner kopieren. Processing anschließend neu starten. |
 
 Die Pakete werden bei einem [GitHub-Release](https://github.com/karlgerd/mk-nds-adt/releases)
 bereitgestellt. Der Inhalt der Sources-JAR ist auf die vier Bibliotheksdateien
@@ -40,7 +40,7 @@ beschränkt.
 - **VS Code:** Mit der Java-Erweiterung die JAR als referenzierte Bibliothek
   hinzufügen (Java-Projektansicht oder `java.project.referencedLibraries`).
 - **Processing:** Die Processing-ZIP enthält die von Processing erwartete
-  Struktur. Den Ordner `mk-nds-adt` aus dem Archiv in den Ordner `libraries`
+  Struktur. Den Ordner `ADTNiedersachsen` aus dem Archiv in den Ordner `libraries`
   im Processing-Sketchbook kopieren und Processing neu starten.
 
 ## Inhaltstypen
@@ -236,7 +236,7 @@ Die Ergebnisse liegen im Ordner `target/`:
 - `mk-nds-adt-3.0.0.jar` – Bibliothek mit Java-11-Bytecode
 - `mk-nds-adt-3.0.0-sources.jar` – nur die vier Java-Quelldateien
 - `mk-nds-adt-3.0.0-javadoc.jar` – API-Dokumentation
-- `mk-nds-adt.zip` – Bibliothek im Format für Processing
+- `ADTNiedersachsen.zip` – Bibliothek im Format für Processing
 
 Die automatischen Tests liegen unter `src/test/java/`. Eigenständige
 Java-Beispiele liegen unter `src/examples/java/` und werden nicht in die

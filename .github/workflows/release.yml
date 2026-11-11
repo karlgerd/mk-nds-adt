@@ -31,5 +31,5 @@ jobs:
             "target/mk-nds-adt-${VERSION}-sources.jar" \
             "target/mk-nds-adt-${VERSION}.jar" \
             "target/mk-nds-adt-${VERSION}-javadoc.jar" \
-            "target/mk-nds-adt.zip" \
+            "target/ADTNiedersachsen.zip" \
             --generate-notes

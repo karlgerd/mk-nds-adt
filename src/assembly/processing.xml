@@ -10,32 +10,32 @@
     <fileSets>
         <fileSet>
             <directory>${project.basedir}/examples</directory>
-            <outputDirectory>mk-nds-adt/examples</outputDirectory>
+            <outputDirectory>ADTNiedersachsen/examples</outputDirectory>
             <includes>
                 <include>**/*</include>
             </includes>
         </fileSet>
         <fileSet>
             <directory>${project.basedir}/src/main/java</directory>
-            <outputDirectory>mk-nds-adt/src</outputDirectory>
+            <outputDirectory>ADTNiedersachsen/src</outputDirectory>
             <includes>
                 <include>**/*.java</include>
             </includes>
         </fileSet>
         <fileSet>
             <directory>${project.build.directory}/reports/apidocs</directory>
-            <outputDirectory>mk-nds-adt/reference</outputDirectory>
+            <outputDirectory>ADTNiedersachsen/reference</outputDirectory>
         </fileSet>
     </fileSets>
     <files>
         <file>
             <source>${project.build.directory}/${project.build.finalName}.jar</source>
-            <outputDirectory>mk-nds-adt/library</outputDirectory>
-            <destName>mk-nds-adt.jar</destName>
+            <outputDirectory>ADTNiedersachsen/library</outputDirectory>
+            <destName>ADTNiedersachsen.jar</destName>
         </file>
         <file>
             <source>${project.basedir}/library.properties</source>
-            <outputDirectory>mk-nds-adt</outputDirectory>
+            <outputDirectory>ADTNiedersachsen</outputDirectory>
         </file>
     </files>
 </assembly>
