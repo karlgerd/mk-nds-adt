@@ -265,10 +265,10 @@ Fehlermeldung aus:
 | `null` als Inhalt oder als Teilbaum | `IllegalArgumentException` |
 | Strukturelle Änderung (`append`, `insertAt`, `delete`) einer `DynArray` während einer for-each-Schleife über dieselbe Reihung | `ConcurrentModificationException` |
 
-### for-each-Schleife über eine `DynArray`
+### for-each-Schleife über eine dynamische Reihung (DynArray)
 
 Laut den Ergänzenden Hinweisen dient die for-each-Schleife dem elementweisen
-Auslesen einer dynamischen Reihung. Während eine for-each-Schleife eine
+Auslesen einer dynamischen Reihung. Während eine for-each-Schleife ein
 `DynArray` durchläuft, sind daher **strukturelle Änderungen** dieser Reihung
 verboten. Strukturell ist jede Änderung, die die Anzahl der Elemente
 verändert:
