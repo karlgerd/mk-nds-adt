@@ -154,6 +154,57 @@ class DynArrayTest {
     }
 
     @Test
+    void forEachRejectsStructuralChangesInEveryPass() {
+        // Jede Position einzeln prüfen, besonders den vorletzten und letzten
+        // Durchlauf: Dort würde ein delete sonst still die Schleife beenden.
+        for (int pass = 0; pass < 3; pass++) {
+            int changeInPass = pass;
+
+            DynArray<String> deleting = createABC();
+            assertThrows(ConcurrentModificationException.class,
+                    () -> changeDuringForEach(deleting, changeInPass, () -> deleting.delete(0)));
+
+            DynArray<String> appending = createABC();
+            assertThrows(ConcurrentModificationException.class,
+                    () -> changeDuringForEach(appending, changeInPass, () -> appending.append("X")));
+
+            DynArray<String> inserting = createABC();
+            assertThrows(ConcurrentModificationException.class,
+                    () -> changeDuringForEach(inserting, changeInPass, () -> inserting.insertAt(0, "X")));
+        }
+    }
+
+    @Test
+    void forEachRejectsDeletingTheLastItem() {
+        DynArray<String> array = createABC();
+        assertThrows(ConcurrentModificationException.class, () -> {
+            for (String item : array) {
+                if (item.equals("C")) {
+                    array.delete(2);
+                }
+            }
+        });
+    }
+
+    private static DynArray<String> createABC() {
+        DynArray<String> array = new DynArray<>();
+        array.append("A");
+        array.append("B");
+        array.append("C");
+        return array;
+    }
+
+    private static void changeDuringForEach(DynArray<String> array, int changeInPass, Runnable change) {
+        int pass = 0;
+        for (String item : array) {
+            if (pass == changeInPass) {
+                change.run();
+            }
+            pass++;
+        }
+    }
+
+    @Test
     void forEachAllowsReplacingItems() {
         DynArray<String> array = new DynArray<>();
         array.append("a");

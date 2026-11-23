@@ -37,7 +37,7 @@ public class DynArray<ContentType> implements Iterable<ContentType> {
 	private int length;
 
 	/**
-	 * Zähler für strukturelle Änderungen (Einfügen, Anhängen, Löschen). Damit
+	 * Zähler für strukturelle Änderungen (Anhängen, Einfügen, Löschen). Damit
 	 * erkennt ein Iterator, ob die Reihung während einer for-each-Schleife
 	 * verändert wurde.
 	 */
@@ -195,10 +195,13 @@ public class DynArray<ContentType> implements Iterable<ContentType> {
 	 * Gibt einen Iterator zurück, der die Elemente der dynamischen Reihung der
 	 * Reihe nach liefert. Diese Methode wird von der for-each-Schleife genutzt.
 	 * <p>
-	 * Wird die Reihung während des Durchlaufens durch append, insertAt oder
-	 * delete verändert, löst der nächste Zugriff des Iterators eine
-	 * {@link ConcurrentModificationException} aus. Das Ersetzen mit setItem ist
-	 * dagegen erlaubt.
+	 * Während des Durchlaufens sind strukturelle Änderungen verboten, also alle
+	 * Änderungen der Anzahl der Elemente durch append, insertAt oder delete.
+	 * Nach einer solchen Änderung löst der Iterator zuverlässig spätestens bei
+	 * der nächsten Prüfung der Schleifenbedingung eine
+	 * {@link ConcurrentModificationException} aus, auch wenn die Änderung im
+	 * letzten Durchlauf erfolgt. Das Ersetzen eines Inhalts mit setItem ist keine
+	 * strukturelle Änderung und daher erlaubt.
 	 *
 	 * @return Ein Iterator über die Elemente der dynamischen Reihung.
 	 */
@@ -218,18 +221,25 @@ public class DynArray<ContentType> implements Iterable<ContentType> {
 		/** Stand des Änderungszählers beim Erzeugen des Iterators. */
 		private int expectedModificationCount = modificationCount;
 
+		/**
+		 * Prüft vor jedem weiteren Schritt, ob die Reihung strukturell verändert
+		 * wurde. Die Prüfung steht hier und nicht erst in next(), damit eine
+		 * Änderung auch im vorletzten und letzten Durchlauf erkannt wird. Sonst
+		 * könnte die Schleife nach einem delete still enden und ein Element
+		 * überspringen.
+		 */
 		@Override
 		public boolean hasNext() {
+			if (modificationCount != expectedModificationCount) {
+				throw new ConcurrentModificationException(
+						"Die dynamische Reihung wurde während des Durchlaufens durch Anhängen, Einfügen oder Löschen verändert.");
+			}
 			return currentIndex < length;
 		}
 
 		@Override
 		@SuppressWarnings("unchecked")
 		public ContentType next() {
-			if (modificationCount != expectedModificationCount) {
-				throw new ConcurrentModificationException(
-						"Die dynamische Reihung wurde während des Durchlaufens verändert.");
-			}
 			if (!hasNext()) {
 				throw new NoSuchElementException("Es ist kein weiteres Element vorhanden.");
 			}
