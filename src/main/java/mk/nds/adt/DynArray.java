@@ -20,7 +20,7 @@ import java.util.NoSuchElementException;
  *
  * @param <ContentType> Der Inhaltstyp der Elemente der dynamischen Reihung.
  * @author Carsten Rohe (erstellt für das Landesnetzwerk Informatik Niedersachsen)
- * @version 2026.11.11
+ * @version 2026.11.23
  */
 public class DynArray<ContentType> implements Iterable<ContentType> {
 
