@@ -17,6 +17,10 @@ Versionsnummern folgen [Semantic Versioning](https://semver.org/lang/de/).
 
 - README: Abschnitt zur for-each-Schleife über eine `DynArray` mit der
   Unterscheidung zwischen strukturellen Änderungen und `setItem`.
+- README: for-each-Schleife mit primitiver Schleifenvariable
+  (`for (int z : zahlen)`) bei `DynArray<Integer>`.
+- README: Ohne Angabe des Inhaltstyps ist beim Auslesen für Rechnen,
+  Vergleichen und Zuweisen immer ein Typ-Cast nötig.
 
 ## [3.0.0] - 2026-11-11
 

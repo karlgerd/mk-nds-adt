@@ -92,6 +92,21 @@ if (antworten.getItem(0)) {
 }
 ```
 
+Das gilt auch für die for-each-Schleife: Die Schleifenvariable darf direkt
+vom primitiven Typ sein. Java wandelt jedes ausgelesene `Integer`-Objekt beim
+Zuweisen an `z` automatisch in einen `int`-Wert um.
+
+```java
+DynArray<Integer> zahlen = new DynArray<>();
+zahlen.append(3);
+zahlen.append(4);
+
+int summe = 0;
+for (int z : zahlen) {        // gleichwertig: for (Integer z : zahlen)
+    summe = summe + z;
+}
+```
+
 ### Ausgelesene Zahlen vergleichen
 
 Beim Vergleichen mit `==` ist eine Eigenschaft von Java zu beachten, die alle
@@ -153,6 +168,32 @@ String wert = (String) stapel.pop();
 
 Die Inhalte sind dann vom Typ `Object`, beim Auslesen ist daher ein Typ-Cast
 nötig. Das Programm lässt sich trotzdem übersetzen und ausführen.
+
+Der Typ-Cast ist **immer** nötig, sobald mit einem ausgelesenen Inhalt
+gerechnet, verglichen oder er einer Variablen eines bestimmten Typs zugewiesen
+wird. Der Compiler sieht beim Auslesen nur den Typ `Object` und weiß nicht,
+dass darin zum Beispiel ein `Integer` liegt. Die automatische Umwandlung in
+einen `int`-Wert findet deshalb nicht statt. Das ist kein Sonderverhalten
+dieser Bibliothek, sondern gilt in Java genauso für eine `ArrayList` ohne
+Typangabe.
+
+```java
+DynArray reihung = new DynArray();
+reihung.append(5);
+
+int a = reihung.getItem(0);                // Compilerfehler
+int b = (Integer) reihung.getItem(0);      // korrekt
+
+if (reihung.getItem(0) == 5) { ... }       // Compilerfehler
+if ((Integer) reihung.getItem(0) == 5) { ... }   // korrekt
+
+for (int z : reihung) { ... }              // Compilerfehler
+for (Object z : reihung) { ... }           // korrekt, z ist vom Typ Object
+```
+
+Mit Angabe des Inhaltstyps, also `DynArray<Integer>`, sind alle diese
+Schreibweisen ohne Typ-Cast korrekt. Auch deshalb empfiehlt sich im Unterricht
+die Angabe des Inhaltstyps.
 
 Je nach Entwicklungsumgebung erscheint dabei ein kurzer Hinweis des Compilers,
 etwa „uses unchecked or unsafe operations“ oder eine Warnung zu einem
