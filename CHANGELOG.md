@@ -3,6 +3,21 @@
 Dieses Protokoll folgt dem Format [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 Versionsnummern folgen [Semantic Versioning](https://semver.org/lang/de/).
 
+## [Unreleased]
+
+### Behoben
+
+- `DynArray`: Eine strukturelle Änderung (`append`, `insertAt`, `delete`)
+  während einer for-each-Schleife löst jetzt zuverlässig eine
+  `ConcurrentModificationException` aus. Bisher konnte ein `delete` im
+  vorletzten oder letzten Durchlauf die Schleife ohne Fehlermeldung beenden,
+  wobei ein Element übersprungen wurde.
+
+### Dokumentation
+
+- README: Abschnitt zur for-each-Schleife über eine `DynArray` mit der
+  Unterscheidung zwischen strukturellen Änderungen und `setItem`.
+
 ## [3.0.0] - 2026-11-11
 
 Erste Veröffentlichung der Bibliothek.

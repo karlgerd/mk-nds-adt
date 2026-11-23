@@ -222,10 +222,43 @@ Fehlermeldung aus:
 | Setzen eines Teilbaums bei einem leeren Baum (`setLeft`/`setRight`) | `IllegalStateException` |
 | Index außerhalb des gültigen Bereichs (`DynArray`) | `IndexOutOfBoundsException` |
 | `null` als Inhalt oder als Teilbaum | `IllegalArgumentException` |
-| Einfügen oder Löschen in einer `DynArray` während einer for-each-Schleife über dieselbe Reihung | `ConcurrentModificationException` |
+| Strukturelle Änderung (`append`, `insertAt`, `delete`) einer `DynArray` während einer for-each-Schleife über dieselbe Reihung | `ConcurrentModificationException` |
 
-Das Ersetzen eines Inhalts mit `setItem` ist während einer for-each-Schleife
-erlaubt.
+### for-each-Schleife über eine `DynArray`
+
+Laut den Ergänzenden Hinweisen dient die for-each-Schleife dem elementweisen
+Auslesen einer dynamischen Reihung. Während eine for-each-Schleife eine
+`DynArray` durchläuft, sind daher **strukturelle Änderungen** dieser Reihung
+verboten. Strukturell ist jede Änderung, die die Anzahl der Elemente
+verändert:
+
+- `append` (Anhängen)
+- `insertAt` (Einfügen)
+- `delete` (Löschen)
+
+Das Ersetzen eines Inhalts mit `setItem` ist keine strukturelle Änderung und
+während der Schleife erlaubt. Ebenso erlaubt ist das Auslesen mit `getItem`,
+`getLength` und `isEmpty`.
+
+Wird die Reihung trotzdem strukturell verändert, löst die Schleife eine
+`ConcurrentModificationException` aus. Das geschieht **zuverlässig**, und zwar
+spätestens bei der nächsten Prüfung, ob es ein weiteres Element gibt. Der
+gerade laufende Schleifendurchlauf wird also noch zu Ende ausgeführt, danach
+bricht das Programm ab. Das gilt auch, wenn die Änderung im letzten Durchlauf
+erfolgt.
+
+Damit verhält sich `DynArray` strenger als Javas eigene `ArrayList`: Dort ist
+die Erkennung nur ein „best effort“, und ein Löschen im vorletzten Durchlauf
+beendet die Schleife ohne Fehlermeldung, wobei das letzte Element übersprungen
+wird. Für den Unterricht ist ein eindeutiger Abbruch mit Fehlermeldung
+hilfreicher als ein still falsches Ergebnis.
+
+Sollen beim Durchlaufen Elemente gelöscht oder eingefügt werden, wird statt der
+for-each-Schleife eine klassische Zählschleife verwendet, zum Beispiel eine
+`while`-Schleife mit einer Indexvariablen. Dabei muss beachtet werden, dass
+sich nach `delete` und `insertAt` die Positionen der nachfolgenden Elemente
+und die Länge der Reihung ändern; der Index darf dann nur passend
+weitergezählt werden.
 
 ## Interne Umsetzung
 
